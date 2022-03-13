@@ -1,0 +1,271 @@
+= Oh 7 ‽
+:toc: preamble
+:toclevels: 4
+:icons: font
+
+A game by Salomon BRYS.
+
+.Components
+****
+* Base game :
+** 5 A cards (♠, ♥, ♣, ♦, ✿).
+** 1 Suit Priority reference card.
+** 40 game cards (0-7 in ♠, ♥, ♣, ♦, ✿).
+* Advanced game :
+** 4 ★ cards (1-4).
+** 2 Butterfly cards.
+** 1 Monkey King card.
+****
+
+Oh 7 ‽ plays in several rounds of 7 tricks.
+You will bet the number of tricks that you will win, with one of your own cards.
+Will you have the necessary card, or will you need to adapt?
+
+To score a maximum of points, you will have to not only take risks, but also try to make your opponent fail their own bets.
+
+
+== Setup
+
+Create the card game deck by shuffling all game cards of as much colours as there are players:
+
+- 3 players : ♠, ♥, ♣
+- 4 players : ♠, ♥, ♣, ♦
+- 5 players : ♠, ♥, ♣, ♦, ✿
+
+NOTE: The base game is limited to 5 players, while the <<advanced-game>> allows to up to 6 players.
+
+You should take a pencil and paper to write down bets & scores.
+
+
+== Round overview
+
+For each round, play the following phases, in order.
+
+1. Distribution
+2. Bets
+3. Trick taking
+4. Scoring
+
+
+[[distribution]]
+=== Distribution
+
+Place the A cards in a pile in the centre of the table and place the Suit Priority card on top.
+
+Distribute 7 cards to each player.
+Put aside the remaining cards (*the discard*), they won't be used for this round.
+
+
+=== Bets
+
+1. Each player chooses a card for their hand and puts it face down on the table.
+
+2. When everyone has chosen a card, they reveal it.
+For each player, the value of their chosen card defines the exact number of tricks that they commit to win during the round (their bet).
++
+[IMPORTANT]
+====
+*The sum of the bets cannot equal 7!* +
+If that is the case, restart the Bets phase at stage 1 *leaving the previous bet cards on the table*.
+Each player must use *another card* to bet.
+
+Only the last chosen card defines the player's bet.
+
+At the second bet, if the sum of the bets is still 7, all players must bet again with a third card.
+
+If, at the third bet, the sum is still 7, restart the round at the <<distribution>> phase by shuffling all game cards (including the discard).
+====
+
+3. Note on a paper sheet the bet of each player.
+
+4. The first leader is the player who bet the *card with the highest value*.
+In case of a tie, the player amongst them who bet with the highest priority suit.
++
+NOTE: The suit priority is : ♠ > ♥ > ♣ > ♦ > ✿. +
+It is reminded on the Suit Priority card during the Bets phase.
+
+5. The bet card of the first leader defines the *trum suit* for the round.
+Take the matching A card, and place it on top of the Suit Priority card.
+It reminds all players of the trump suit for the round.
+
+.Bets
+====
+Alice bets the *2* of Clubs. +
+Bob bets the *3* of Spades. +
+Carole bets the *2* of Spades. +
+David bets the *0* of Hearts.
+
+As the sum of the bets is 7, they need to bet again.
+
+Alice bets the *3* of Clubs. +
+Bob bets the *3* of Hearts. +
+Carole bets the *2* of Hearts. +
+David bets the *0* of Spades.
+
+As Alice and Bob have both bet 3, the suit priority decides.
+Hearts being higher priority than Clubs, Bob becomes the first leader, and his card defines Hearts as the trump suit for the round.
+====
+
+
+=== Trick taking
+
+This phase is played in 7 tricks.
+Each player will therefore play their full hand.
+
+The first leader leads the first trick.
+Each following trick is lead by the winner of the previous trick.
+
+Each trick plays as such :
+
+1. The leader chooses a card from their hand and plays it face up on the table.
+The suit of the card is called *lead suit*.
+
+2. In clockwise order, each other player chooses a card from their hand and plays it face up on the table.
++
+IMPORTANT: The suit of this card *must* be of the lead suit if possible.
+If you don't have a card of the lead suit, you can play any other card.
+
+3. Define the trick winner:
++
+* If there are cards of the trump suit in the trick: the player who played *the highest trump suit card* wins the trick.
+* If there are no card of the trump suit in the trick: the player who played *the higest lead suit card* wins the trick.
++
+That player takes the cards of the trick and places them face down in front of them.
+If that wasn't the 7th trick, they become the leader of the next trick.
++
+CAUTION: Each player should place their won tricks next to each other so that *everybody can see the number of trick won by each player*.
+         This information is public and always visible.
+
+Once all seven tricks have been played, tally up the scores.
+
+
+=== Scoring
+
+Each player computes the difference between their bet and the number of tricks they won: that's their *loss*.
+A loss of 0 indicates a bet made (meaning having won exactly as many tricks as bet).
+
+The sum of the losses makes *the basket*.
+
+* Each player who *failed* their bet scores as much points as the basket minus their loss.
++
+NOTE: If a player is the only one who lost their bet, they do not score any point (as the basket is only comprised of their loss).
+
+* Each player who *made exactly their bet* scores:
+** Double the basket
+** + 2 points for making their bet
+** + 1 point for each trick they won.
+
+.Scores
+====
+Following the previous example, after having played the tric-taking phase:
+
+Alice won *3* tricks, making her bet. +
+Bob won *4* trick, failing his bet (loss of stem:[1] points). +
+Carole didn't win any trick, failing her bet (loss of stem:[2] point). +
+David didn't win any trick, making his bet.
+
+The basket is therefore comprised of stem:[1 + 2 = 3] points.
+
+* Players who failed their bet:
+** Bob wins stem:[3 - 1 = 2] points.
+** Carole wins stem:[3 - 2 = 1] point.
+* Players who made their bet:
+** Alice wins stem:[(3 * 2) + 2 + 3 = 11] points.
+** David wins stem:[(3 * 2) + 2 + 0 = 8] points.
+====
+
+The fist player to reach *35 points after making their bet (winning a round)* wins the game. +
+If multiple players reached 35 points during the same round and both made their bet, *the player who made the most bets* (won the most rounds) wins the game. +
+In case of a tie, the player who has *the most points* wins the game. +
+If the tie persists, the tied players share the victory.
+
+If no player has won 35 points after making their bet, start a new round at the <<distribution>> phase by shuffling all game cards (including the discard).
+
+[NOTE]
+====
+* For shorter games, play to 21 points.
+* For longer games, play to 49 points.
+====
+
+
+[[advanced-game]]
+== Advanced game
+
+*For 3 to 6 players.*
+
+Play with one suit less than the number of players:
+
+- 3 players : ♠, ♥
+- 4 players : ♠, ♥, ♣
+- 5 players : ♠, ♥, ♣, ♦
+- 6 players : ♠, ♥, ♣, ♦, ✿
+
+Add the *special cards*:
+
+* *Cards 1 to 4 of suit ★*:
+** In the bet phase: +
+The player of a ★ card cannot become first leader (even if they played the highest value card).
+To define the first leader, cards of suit ★ are ignored.
+The suit ★ will therefore never be trump.
+** In the trick-taking phase: +
+The ★ cards are considered of the lead suit. +
+The ★ cards are weaker than lead suit cards of the same value.
+(For example, if ♥ is the lead suit, the order is therefore 2♥ > 2★ > 1♥).
+* *2 Butterfly cards* :
+** In the bet phase: +
+A Butterfly card corresponds to a bet of 0 trick.
+If the bet is made, the player *does not score* the 2 points for their bet (they therefore only score the double of the basket).
+** In the trick-taking phase: +
+A butterfly card is lower than any other card: it can never win a trick.
+* *1 Monkey King card* :
+** In the bet phase: +
+The Monkey King card *cannot be used to bet*. +
+However, in case of a tie for the highest bet, you can show that you have the Monkey King card in hand to win the tie (instead of using the suit priority order).
+** In the trick-taking phase: +
+The Monkey King card is stronger than any non-trump card, but weaker than any trump card.
+
+[CAUTION]
+====
+* Special cards can be played at any time, whether you have cards of the lead suit or not.
+
+* If a player opens with a special card, then the lead suit is defined by the next player.
+If they also play a special card, then the lead suit is defined by the next player, and so on. +
+If a trick only contains special cards, then the stronger card is the Monkey King, followed by the ★ cards, followed by the Butterfly cards.
+====
+
+
+== 2 Players
+
+Create the card game deck as if you were playing with three players.
+
+Both players will face each other and a third Dummy player will be simulated.
+
+Deal a hand of 7 cards to each player.
+Put the remaining cards in a pile between players: that's the *Dummy* pile.
+
+During the bet phase, the Dummy always bets 2.
+Therefore, if the sum of the players bets plus 2 is 7, they need to re-bet.
+The Dummy never becomes first leader (its bet is ignored for that purpose).
+
+After the bet phase, before starting the first trick, reveal 2 cards from the Dummy pile and place them face up next to it.
+
+The Dummy always plays last (after both players), unless it won the previous trick, in which case it opens the trick, followed by the first leader.
+
+The Dummy tries to win exactly 2 tricks.
+
+Each time the Dummy plays last, reveal a third card from its pile and play one of the three revealed cards on its behalf:
+
+* *If it wants to win the trick* (because it has won fewer than 2 tricks):
+** *If it can win the trick*:
+*** *If it is his first trick*: it plays the lowest card that wins the trick.
+*** *If it is his second trick*: it plays the highest card that wins the trick.
+** *If it cannot win the trick*: it plays the lowest possible card.
+* *If it wants to lose the trick* (because it has already won 2 tricks):
+** *If it can lose the trick*: it plays the highest card that looses the trick.
+** *If it cannot lose the trick*: it plays the highest possible card.
+
+In case of a tie for non-trump highest or lowest card, it follows the suit order.
+
+If the Dummy plays first (because it won the previous trick), it plays the first card from its pile (its 2 reveal cards stay on the table).
+
+Do not keep scores for the Dummy.

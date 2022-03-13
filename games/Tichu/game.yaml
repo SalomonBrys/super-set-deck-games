@@ -1,0 +1,16 @@
+type:
+  - Hand management
+  - Ladder Climbing
+  - Predictive Bid
+  - Team-Based Game
+  - Trick Taking
+players: 3, 4, 6
+cards:
+  Base:
+    all-players:
+      stars: 0
+      spades: 1-13
+      hearts: 1-13
+      clubs: 1-13
+      diamonds: 1-13
+      specials: owl, wolf, monkey
