@@ -65,7 +65,7 @@ Il y a 7 familles (couleurs) composées de 7 cartes chacune.
 
 Chaque famille est composée de cartes avec une étendue de valeur différente.
 
-[%autowidth]
+[%autowidth,role="big-table"]
 |===
 | A | 2 | 3 | 4 | 5 | 6 | K | 8 | 9 | 10 | 11 | 12 | 13
 

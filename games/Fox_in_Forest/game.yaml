@@ -1,6 +1,6 @@
 type:
-  - Hand Management
   - Trick Taking
+  - Score and Reset
 players: 2
 cards:
   Base:

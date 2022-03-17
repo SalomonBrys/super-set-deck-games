@@ -1,9 +1,8 @@
 type:
-  - Hand management
+  - Hand Management
   - Ladder Climbing
-  - Predictive Bid
-  - Team-Based Game
-  - Trick Taking
+  - Team Based
+  - Score and Reset
 players: 3, 4, 6
 cards:
   Base:

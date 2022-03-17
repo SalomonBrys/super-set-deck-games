@@ -61,7 +61,7 @@ There are 7 suits (colors) with 7 cards in each suit.
 
 Each suit has different range of card values.
 
-[%autowidth]
+[%autowidth,role="big-table"]
 |===
 | A | 2 | 3 | 4 | 5 | 6 | K | 8 | 9 | 10 | 11 | 12 | 13
 

@@ -1,6 +1,7 @@
 type:
   - Trick Taking
-  - Team-Based Game
+  - Team Based
+  - Score and Reset
 players: 3, 4
 cards:
   Base:

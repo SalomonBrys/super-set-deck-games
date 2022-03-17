@@ -147,7 +147,7 @@ En outre, mélangez les *72 cartes jeu*, les 12 cartes de l'Expédition ⎈ éta
 
 Vous avez constitué les Expéditions ci-contre :
 
-[options="header,autowidth",cols=">h,^,^,^,^,^"]
+[options="header,autowidth",cols=">h,^,^,^,^,^",role="big-table"]
 |===
 | | ♠ | ♥ | ♣ | ♦ | ★
 

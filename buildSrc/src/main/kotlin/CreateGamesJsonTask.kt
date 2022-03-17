@@ -1,5 +1,4 @@
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import org.gradle.api.DefaultTask
 import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputFile
@@ -9,7 +8,11 @@ import org.snakeyaml.engine.v2.api.LoadSettings
 import java.io.File
 
 
-open class CreateGameJson : DefaultTask() {
+abstract class CreateGamesJsonTask : DefaultTask() {
+
+    init {
+        group = "build"
+    }
 
     @get:InputFiles
     val inputs = project.fileTree("${project.projectDir}/games") {
@@ -17,7 +20,7 @@ open class CreateGameJson : DefaultTask() {
     }
 
     @get:OutputFile
-    val output = project.file("build/generated/games.json")
+    val output = project.buildDir.resolve("generatedResources/games/games.json")
 
     private val yamlLoader = Load(
         LoadSettings.builder()

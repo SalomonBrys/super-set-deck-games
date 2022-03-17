@@ -1,0 +1,115 @@
+import androidx.compose.runtime.*
+import app.softwork.routingcompose.HashRouter
+import app.softwork.routingcompose.Router
+import data.Game
+import data.LocalLang
+import data.langs
+import kotlinx.browser.window
+import kotlinx.coroutines.await
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import material.MdcMenu
+import material.MdcTextIconButton
+import material.MdcTopAppBarSectionContext
+import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.renderComposableInBody
+import utils.Cookies
+import kotlin.time.Duration.Companion.days
+
+
+private fun getLanguage(): String {
+    val cookie = Cookies["lang"]
+    if (cookie != null && cookie in langs) {
+        return cookie
+    }
+
+    val navs = when {
+        window.navigator.languages.isNotEmpty() -> {
+            window.navigator.languages.map { it.split("-")[0] } .distinct()
+        }
+        window.navigator.language.isNotEmpty() -> {
+            listOf(window.navigator.language.split("-")[0])
+        }
+        else -> listOf("en")
+    }
+
+    val lang = navs.firstOrNull { it in langs } ?: "en"
+    return lang
+}
+
+typealias LangMenu = @Composable MdcTopAppBarSectionContext.() -> Unit
+
+@Composable
+private fun WithLang(content: @Composable (LangMenu) -> Unit) {
+    var langId by remember { mutableStateOf(getLanguage()) }
+
+    LaunchedEffect(langId) {
+        Cookies.set("lang", langId, 365.days)
+    }
+
+    val lang = langs.getValue(langId)
+
+    CompositionLocalProvider(LocalLang provides lang) {
+        content {
+            Action {
+                MdcMenu(
+                    anchorContent = { openMenu ->
+                        MdcTextIconButton(LocalLang.current.id.uppercase()) { openMenu() }
+                    },
+                    menuContent = {
+                        langs.keys.sorted().forEach {
+                            menuItem(onSelect = { langId = it }) { Text(it.uppercase()) }
+                        }
+                    }
+                )
+            }
+        }
+    }
+}
+
+fun main() {
+
+    renderComposableInBody {
+        var games by remember { mutableStateOf<List<Game>?>(null) }
+
+        LaunchedEffect(null) {
+            try {
+                val response = window.fetch("games/games.json").await()
+                if (!response.ok) error("${response.status} ${response.statusText}")
+                games = Json.decodeFromString(response.text().await())
+            } catch (e: Throwable) {
+                window.alert("Error loading games: ${e.message ?: e.toString()}")
+            }
+        }
+
+        WithLang { langMenu ->
+            HashRouter(initRoute = "/") {
+                val router = Router.current
+
+                route("/game") {
+                    string { gameId ->
+                        if (games == null) {
+                            Game(null, langMenu)
+                        } else {
+                            val game = games!!.firstOrNull { it.id == gameId }
+                            if (game != null) {
+                                Game(game, langMenu)
+                            } else {
+                                SideEffect { router.navigate("/") }
+                            }
+                        }
+                    }
+                    noMatch {
+                        SideEffect { router.navigate("/") }
+                    }
+                }
+                route("/") {
+                    GamesList(games, langMenu)
+                }
+                noMatch {
+                    SideEffect { router.navigate("/") }
+                }
+            }
+        }
+    }
+}

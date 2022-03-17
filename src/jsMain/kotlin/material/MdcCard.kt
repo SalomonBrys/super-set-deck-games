@@ -1,0 +1,27 @@
+package material
+
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.compositionLocalOf
+import org.jetbrains.compose.web.attributes.AttrsScope
+import org.jetbrains.compose.web.dom.*
+import org.w3c.dom.HTMLDivElement
+
+
+@Suppress("unused")
+@JsModule("@material/card/dist/mdc.card.css")
+private external val MdcCardStyle: dynamic
+
+
+@Composable
+fun MdcCard(
+    attrs: AttrBuilderContext<HTMLDivElement>? = null,
+    content: ContentBuilder<HTMLDivElement>
+) {
+    Div({
+        classes("mdc-card")
+        attrs?.invoke(this)
+    }) {
+        content()
+    }
+}

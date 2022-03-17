@@ -146,7 +146,7 @@ Then shuffle all *72 playing cards*, including the 12 ✿ playing cards.
 
 A player has placed cards as shown here.
 
-[options="header,autowidth",cols=">h,^,^,^,^,^"]
+[options="header,autowidth",cols=">h,^,^,^,^,^",role="big-table"]
 |===
 | | ♠ | ♥ | ♣ | ♦ | ★
 

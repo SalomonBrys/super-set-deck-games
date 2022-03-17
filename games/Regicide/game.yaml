@@ -1,6 +1,5 @@
 type:
-  - Communication Limits
-  - Cooperative Game
+  - Cooperative
   - Hand Management
 players: 1, 2, 3, 4
 cards:
