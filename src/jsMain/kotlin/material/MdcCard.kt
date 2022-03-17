@@ -16,12 +16,25 @@ private external val MdcCardStyle: dynamic
 @Composable
 fun MdcCard(
     attrs: AttrBuilderContext<HTMLDivElement>? = null,
+    onClick: (() -> Unit)? = null,
     content: ContentBuilder<HTMLDivElement>
 ) {
     Div({
         classes("mdc-card")
         attrs?.invoke(this)
+        if (onClick != null) onClick { onClick() }
     }) {
-        content()
+        if (onClick != null) {
+            Div({
+                classes("mdc-card__primary-action")
+                tabIndex(0)
+            }) {
+                content()
+                Div({ classes("mdc-card__ripple") })
+                MdcRipple()
+            }
+        } else {
+            content()
+        }
     }
 }

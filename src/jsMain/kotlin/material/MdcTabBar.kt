@@ -2,10 +2,9 @@ package material
 
 import androidx.compose.runtime.*
 import kotlinx.coroutines.yield
-import org.jetbrains.compose.web.dom.Button
-import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.Span
-import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.dom.*
+import org.w3c.dom.HTMLButtonElement
+import org.w3c.dom.HTMLDivElement
 
 
 @Suppress("unused")
@@ -27,11 +26,16 @@ private external val MdcTabStyle: dynamic
 
 class MdcTabBarContext {
     @Composable
-    fun MdcTab(icon: String? = null, content: @Composable () -> Unit) {
+    fun MdcTab(
+        icon: String? = null,
+        attrs: AttrBuilderContext<HTMLButtonElement>? = null,
+        content: @Composable () -> Unit
+    ) {
         Button({
             classes("mdc-tab")
             attr("role", "tab")
             tabIndex(0)
+            attrs?.invoke(this)
         }) {
             Span({ classes("mdc-tab__content") }) {
                 if (icon != null) {
@@ -56,6 +60,7 @@ class MdcTabBarContext {
 fun MdcTabBar(
     selected: Int,
     onSelected: (Int) -> Unit,
+    attrs: AttrBuilderContext<HTMLDivElement>? = null,
     content: @Composable MdcTabBarContext.() -> Unit
 ) {
     var count by remember { mutableStateOf(0) }
@@ -64,6 +69,7 @@ fun MdcTabBar(
     Div({
         classes("mdc-tab-bar")
         attr("role", "tablist")
+        attrs?.invoke(this)
     }) {
         @Suppress("NAME_SHADOWING") val selected by rememberUpdatedState(selected)
 
@@ -84,7 +90,7 @@ fun MdcTabBar(
         }
 
         LaunchedEffect(tabBar, selected, count) {
-            if (tabBar == null) return@LaunchedEffect
+            if (tabBar == null || selected == -1) return@LaunchedEffect
 //            if (tabBar!!.value == selected) return@LaunchedEffect
             yield()
             tabBar!!.activateTab(selected)

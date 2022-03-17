@@ -490,6 +490,11 @@
   resolved "https://registry.yarnpkg.com/@ungap/promise-all-settled/-/promise-all-settled-1.1.2.tgz#aa58042711d6e3275dd37dc597e5d31e8c290a44"
   integrity sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==
 
+"@uriopass/nosleep.js@0.12.1":
+  version "0.12.1"
+  resolved "https://registry.yarnpkg.com/@uriopass/nosleep.js/-/nosleep.js-0.12.1.tgz#5fa0044db585960f7edb283eefdf91d4001dc8fc"
+  integrity sha512-NovHSAn7zimQQHPapzr9Lnlk7EYSujh+9iSiVavbG/UCBfk3lDXmQZG+otNOp6x4KzYlYH8IzosqosV69Va/2w==
+
 "@webassemblyjs/ast@1.11.1":
   version "1.11.1"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.11.1.tgz#2bfd767eae1a6996f432ff7e8d7fc75679c0b6a7"

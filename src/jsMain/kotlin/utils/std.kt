@@ -1,10 +1,8 @@
 package utils
 
-import org.w3c.dom.Element
-import org.w3c.dom.HTMLCollection
-import org.w3c.dom.get
+import org.w3c.dom.*
 
 
-inline fun HTMLCollection.forEach(block: (Element) -> Unit) {
-    (0 until length).forEach { block(this.get(it)!!) }
+inline fun <T> ItemArrayLike<T>.forEach(block: (T) -> Unit) {
+    (0 until length).forEach { block(item(it)!!) }
 }

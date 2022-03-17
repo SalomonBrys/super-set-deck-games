@@ -40,14 +40,24 @@ private fun Router.applyFilter(playerCount: Int, gameType: String?) {
     )
 }
 
+private fun List<Game>.playerCounts(gameType: String?): List<Int> =
+    filter { if (gameType == null) true else gameType in it.types }
+        .flatMap { it.playerCount }
+        .distinct().sorted()
+
+private fun List<Game>.gameTypes(playerCount: Int): List<String> =
+    filter { if (playerCount == 0) true else playerCount in it.playerCount }
+        .flatMap { it.types }
+        .distinct().sorted()
+
 @Composable
 private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: String?) {
-    val playerCounts = games.flatMap { it.playerCount }.distinct().sorted()
-
     val router = Router.current
 
     @Suppress("NAME_SHADOWING") val playerCount by rememberUpdatedState(playerCount)
     @Suppress("NAME_SHADOWING") val gameType by rememberUpdatedState(gameType)
+
+    val allCounts = games.playerCounts(null)
 
     MdcChipSet {
         MdcDialog(
@@ -66,7 +76,7 @@ private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: Stri
                     }
                 ) {
                     Text(when (playerCount) {
-                        0 -> "${playerCounts.first()}-${playerCounts.last()} ${LocalLang.current.players}"
+                        0 -> "${allCounts.first()}-${allCounts.last()} ${LocalLang.current.players}"
                         1 -> "1 ${LocalLang.current.player}"
                         else -> "$playerCount ${LocalLang.current.players}"
                     })
@@ -75,8 +85,9 @@ private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: Stri
         ) {
             MdcDialogTitle { Text("Select player count") }
             MdcDialogContent {
+                val playerCounts = games.playerCounts(gameType)
                 MdcList {
-                    MdcDialogListItem("s:all") { Text("${playerCounts.first()}-${playerCounts.last()}") }
+                    MdcDialogListItem("s:all") { Text("${allCounts.first()}-${allCounts.last()}") }
                     MdcListDivider()
                     playerCounts.forEach {
                         MdcDialogListItem("s:$it") { Text("$it") }
@@ -112,7 +123,8 @@ private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: Stri
                 MdcList {
                     MdcDialogListItem("s:all") { Text(LocalLang.current.allTypes) }
                     MdcListDivider()
-                    games.flatMap { it.types }.distinct().sorted().forEach {
+                    val gameTypes = games.gameTypes(playerCount)
+                    gameTypes.forEach {
                         MdcDialogListItem("s:$it") { Text(LocalLang.current.gameTypes[it] ?: it) }
                     }
                 }

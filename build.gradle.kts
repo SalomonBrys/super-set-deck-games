@@ -13,6 +13,13 @@ repositories {
 val createGameJson = tasks.create<CreateGamesJsonTask>("createGameJson")
 val asciidoctor = tasks.create<AsciidoctorTask>("asciidoctor")
 
+val copyPngs = tasks.create<Copy>("copyPngs") {
+    group = "build"
+    from(projectDir.resolve("games")) {
+        include("**/R-*.png")
+    }
+    into(buildDir.resolve("generatedResources/games"))
+}
 
 kotlin {
     js(IR) {
@@ -24,8 +31,8 @@ kotlin {
         }
         @Suppress("UnstableApiUsage")
         (tasks[compilations["main"].processResourcesTaskName] as ProcessResources).apply {
-            dependsOn(createGameJson, asciidoctor)
-            from(project.buildDir.resolve("generatedResources"))
+            dependsOn(createGameJson, asciidoctor, copyPngs)
+            from(buildDir.resolve("generatedResources"))
         }
         binaries.executable()
     }
@@ -54,6 +61,8 @@ kotlin {
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 
                 implementation("app.softwork:routing-compose:0.1.8")
+
+                implementation(npm("@uriopass/nosleep.js", "0.12.1"))
             }
         }
 

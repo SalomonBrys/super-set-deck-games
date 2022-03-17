@@ -67,6 +67,8 @@ private fun WithLang(content: @Composable (LangMenu) -> Unit) {
     }
 }
 
+fun homePath() = Cookies["lastFilterHash"] ?: "/"
+
 fun main() {
 
     renderComposableInBody {
@@ -104,6 +106,9 @@ fun main() {
                     }
                 }
                 route("/") {
+                    LaunchedEffect(window.location.hash) {
+                        Cookies.set("lastFilterHash", window.location.hash.removePrefix("#"), 14.days)
+                    }
                     GamesList(games, langMenu)
                 }
                 noMatch {
