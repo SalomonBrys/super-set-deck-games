@@ -1,33 +1,17 @@
 import androidx.compose.runtime.*
-import app.softwork.routingcompose.HashRouter
 import app.softwork.routingcompose.NavBuilder
 import app.softwork.routingcompose.Router
 import data.Game
 import data.LocalLang
-import data.langs
+import data.name
 import material.*
+import material.utils.MdcTrigger
+import material.utils.rememberMdcTrigger
 import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.Text
 import utils.FlexColumn
 import utils.encodeURIComponent
 
-
-@Composable
-private fun GamesListTopBar(langMenu: LangMenu) {
-    MdcTopAppBar {
-        Row {
-            Section(SectionAlign.Start) {
-                Title {
-                    Text(LocalLang.current.games)
-                }
-            }
-            Section(SectionAlign.End) {
-                langMenu()
-            }
-        }
-    }
-}
 
 private fun Router.applyFilter(playerCount: Int, gameType: String?) {
     val params = buildList {
@@ -35,8 +19,8 @@ private fun Router.applyFilter(playerCount: Int, gameType: String?) {
         if (gameType != null) add("gameType=${encodeURIComponent(gameType)}")
     }
     navigate(
-        if (params.isNotEmpty()) "/?${params.joinToString("&")}"
-        else "/"
+        if (params.isNotEmpty()) "/games?${params.joinToString("&")}"
+        else "/games"
     )
 }
 
@@ -60,26 +44,25 @@ private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: Stri
     val allCounts = games.playerCounts(null)
 
     MdcChipSet {
+        val playerCountTrigger = rememberMdcTrigger()
+        MdcChip(
+            id = "playerCount",
+            onInteract = { playerCountTrigger.open() }
+        ) {
+            Text(when (playerCount) {
+                0 -> "${allCounts.first()}-${allCounts.last()} ${LocalLang.current.players}"
+                1 -> "1 ${LocalLang.current.player}"
+                else -> "$playerCount ${LocalLang.current.players}"
+            })
+        }
         MdcDialog(
+            trigger = playerCountTrigger.flow,
             onAction = {
                 if (it.startsWith("s:")) {
                     router.applyFilter(
                         playerCount = if (it == "s:all") 0 else it.removePrefix("s:").toInt(),
                         gameType = gameType
                     )
-                }
-            },
-            anchorContent = { openDialog ->
-                MdcChip(
-                    onClick = {
-                        openDialog()
-                    }
-                ) {
-                    Text(when (playerCount) {
-                        0 -> "${allCounts.first()}-${allCounts.last()} ${LocalLang.current.players}"
-                        1 -> "1 ${LocalLang.current.player}"
-                        else -> "$playerCount ${LocalLang.current.players}"
-                    })
                 }
             }
         ) {
@@ -99,22 +82,21 @@ private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: Stri
             }
         }
 
+        val gameTypeTrigger = rememberMdcTrigger()
+        MdcChip(
+            id = "gameType",
+            onInteract = { gameTypeTrigger.open() }
+        ) {
+            Text(gameType?.let { LocalLang.current.gameTypes[it] ?: it } ?: LocalLang.current.allTypes)
+        }
         MdcDialog(
+            trigger = gameTypeTrigger.flow,
             onAction = {
                 if (it.startsWith("s:")) {
                     router.applyFilter(
                         playerCount = playerCount,
                         gameType = if (it == "s:all") null else it.removePrefix("s:")
                     )
-                }
-            },
-            anchorContent = { openDialog ->
-                MdcChip(
-                    onClick = {
-                        openDialog()
-                    }
-                ) {
-                    Text(gameType?.let { LocalLang.current.gameTypes[it] ?: it } ?: LocalLang.current.allTypes)
                 }
             }
         ) {
@@ -138,7 +120,7 @@ private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: Stri
 }
 
 @Composable
-private fun GamesListBody(games: List<Game>, playerCount: Int, gameType: String?) {
+fun GamesList(games: List<Game>, playerCount: Int, gameType: String?) {
     GamesListFilters(games, playerCount, gameType)
 
     MdcList({
@@ -149,7 +131,6 @@ private fun GamesListBody(games: List<Game>, playerCount: Int, gameType: String?
     }) {
         val router = Router.current
 
-        @Composable fun Game.name() = names[LocalLang.current.id] ?: names["en"] ?: names.values.first()
         games
             .filter {
                 if (playerCount == 0) true else playerCount in it.playerCount
@@ -157,10 +138,10 @@ private fun GamesListBody(games: List<Game>, playerCount: Int, gameType: String?
             .filter {
                 if (gameType == null) true else gameType in it.types
             }
-            .sortedBy { it.name() }
+            .sortedBy { it.name }
             .forEach {
                 MdcListItem(
-                    onClick = {
+                    onSelect = {
                         router.navigate("/game/${it.id}")
                     },
                     attrs = {
@@ -171,29 +152,10 @@ private fun GamesListBody(games: List<Game>, playerCount: Int, gameType: String?
                     }
                 ) {
                     TwoLines(
-                        primary = { Text(it.name()) },
+                        primary = { Text(it.name) },
                         secondary = { Text("${it.playerCount.joinToString()} ${LocalLang.current.players}") }
                     )
                 }
             }
-    }
-}
-
-@Composable
-fun NavBuilder.GamesList(games: List<Game>?, langMenu: LangMenu) {
-    GamesListTopBar(langMenu)
-
-    MdcTopAppBarMain {
-        FlexColumn(JustifyContent.Center, AlignItems.Center) {
-            if (games == null) {
-                Loader()
-            } else {
-                GamesListBody(
-                    games = games,
-                    playerCount = parameters?.map?.get("playerCount")?.firstOrNull()?.toIntOrNull() ?: 0,
-                    gameType = parameters?.map?.get("gameType")?.firstOrNull()
-                )
-            }
-        }
     }
 }

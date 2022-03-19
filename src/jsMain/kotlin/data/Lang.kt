@@ -10,6 +10,8 @@ data class Lang(
     val allTypes: String,
     val rules: String,
     val references: String,
+    val addGame: String,
+    val variants: String,
 
     val gameTypes: Map<String, String> = emptyMap()
 )
@@ -24,6 +26,8 @@ val langs = mapOf(
         allTypes = "all types",
         rules = "Rules",
         references = "References",
+        addGame = "Add game",
+        variants = "Variants",
     ),
 
     "fr" to Lang(
@@ -34,6 +38,8 @@ val langs = mapOf(
         allTypes = "tous types",
         rules = "Règles",
         references = "Références",
+        addGame = "Ajouter un jeu",
+        variants = "Variantes",
 
         gameTypes = mapOf(
             "Cooperative" to "Coopératif",

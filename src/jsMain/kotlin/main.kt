@@ -6,11 +6,15 @@ import data.LocalLang
 import data.langs
 import kotlinx.browser.window
 import kotlinx.coroutines.await
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import material.MdcMenu
-import material.MdcTextIconButton
+import material.MdcMenuAnchor
 import material.MdcTopAppBarSectionContext
+import material.utils.rememberMdcTrigger
+import material_custom.MdcTextIconButton
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.renderComposableInBody
 import utils.Cookies
@@ -52,16 +56,17 @@ private fun WithLang(content: @Composable (LangMenu) -> Unit) {
     CompositionLocalProvider(LocalLang provides lang) {
         content {
             Action {
-                MdcMenu(
-                    anchorContent = { openMenu ->
-                        MdcTextIconButton(LocalLang.current.id.uppercase()) { openMenu() }
-                    },
-                    menuContent = {
+                MdcMenuAnchor {
+                    val trigger = rememberMdcTrigger()
+
+                    MdcTextIconButton(LocalLang.current.id.uppercase()) { trigger.open() }
+
+                    MdcMenu(trigger.flow) {
                         langs.keys.sorted().forEach {
-                            menuItem(onSelect = { langId = it }) { Text(it.uppercase()) }
+                            MdcMenuItem(onSelect = { langId = it }) { Text(it.uppercase()) }
                         }
                     }
-                )
+                }
             }
         }
     }
@@ -86,7 +91,7 @@ fun main() {
 
         WithLang { langMenu ->
             HashRouter(initRoute = "/") {
-                val router = Router.current
+                val router by rememberUpdatedState(Router.current)
 
                 route("/game") {
                     string { gameId ->
@@ -105,14 +110,14 @@ fun main() {
                         SideEffect { router.navigate("/") }
                     }
                 }
-                route("/") {
+                route("/games") {
                     LaunchedEffect(window.location.hash) {
                         Cookies.set("lastFilterHash", window.location.hash.removePrefix("#"), 14.days)
                     }
-                    GamesList(games, langMenu)
+                    Home(games, langMenu)
                 }
                 noMatch {
-                    SideEffect { router.navigate("/") }
+                    SideEffect { router.navigate("/games") }
                 }
             }
         }

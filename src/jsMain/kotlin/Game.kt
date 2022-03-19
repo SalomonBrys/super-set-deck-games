@@ -6,7 +6,9 @@ import data.LocalLang
 import kotlinx.browser.window
 import kotlinx.coroutines.await
 import material.*
+import material_custom.MdcTopAppBarMain
 import org.jetbrains.compose.web.css.*
+import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.*
@@ -63,7 +65,36 @@ private fun GameRules(game: Game, section: String?) {
         html = window.fetch("games/${game.id}/${langId}.inc.html").await().text().await()
     }
 
-    MdcCard({
+    H1({
+        style {
+            fontFamily("Picon-Extended", "sans-serif")
+            color(Color("var(--mdc-theme-primary)"))
+            padding(0.5.cssRem)
+            textAlign("center")
+            fontSize(2.5.em)
+            marginBottom(0.5.cssRem)
+        }
+    }) { Text(game.names.get(LocalLang.current.id) ?: game.names.get("en") ?: game.names.values.firstOrNull() ?: "") }
+
+    MdcChipSet({
+        style {
+            marginBottom(1.cssRem)
+            justifyContent(JustifyContent.Center)
+        }
+    }) {
+        val router by rememberUpdatedState(Router.current)
+        game.types.forEach {
+            val encoded = encodeURIComponent(it)
+            MdcChip(
+                id = encoded,
+                onInteract = { router.navigate("/games?gameType=$encoded") },
+            ) {
+                Text(it)
+            }
+        }
+    }
+
+    MdcCard(attrs = {
         style {
             width(100.percent)
             maxWidth(60.cssRem)

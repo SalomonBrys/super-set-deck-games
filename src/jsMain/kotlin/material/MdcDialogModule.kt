@@ -3,16 +3,16 @@
 
 package material
 
+import material.utils._Internal_MdcWidget
 import org.w3c.dom.CustomEvent
 import org.w3c.dom.HTMLElement
 
 
 @JsName("MDCDialog")
-internal external class _Internal_MDCDialog(el: HTMLElement) {
+internal external class _Internal_MDCDialog(el: HTMLElement) : _Internal_MdcWidget {
 
     fun open()
-
-    fun listen(event: String, listener: (CustomEvent) -> Unit)
+    fun close()
 
     interface ClosingDetails {
         val action: String

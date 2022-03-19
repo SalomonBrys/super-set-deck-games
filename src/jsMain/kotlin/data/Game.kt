@@ -1,5 +1,6 @@
 package data
 
+import androidx.compose.runtime.Composable
 import kotlinx.serialization.Serializable
 
 typealias ValueToCount = Map<String, Int>
@@ -23,3 +24,5 @@ data class Game(
     @Serializable
     data class P2C(val players: List<Int>, val cards: SuitToValues)
 }
+
+val Game.name @Composable get() = names[LocalLang.current.id] ?: names["en"] ?: names.values.first()

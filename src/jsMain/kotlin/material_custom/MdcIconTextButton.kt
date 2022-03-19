@@ -1,20 +1,15 @@
-package material
+package material_custom
 
 import androidx.compose.runtime.Composable
+import material.LocalAdditionalClasses
+import material.MdcRipple
 import org.jetbrains.compose.web.dom.*
 import org.w3c.dom.HTMLButtonElement
-import org.w3c.dom.HTMLDivElement
-
-
-@Suppress("unused")
-@JsModule("@material/icon-button/dist/mdc.icon-button.css")
-private external val MdcIconButtonStyle: dynamic
 
 
 @Composable
-fun MdcIconButton(
-    icon: String,
-    label: String? = null,
+fun MdcTextIconButton(
+    label: String,
     unbounded: Boolean? = true,
     attrs: AttrBuilderContext<HTMLButtonElement>? = null,
     onClick: () -> Unit
@@ -24,18 +19,15 @@ fun MdcIconButton(
     }) {
         val additionalClasses = LocalAdditionalClasses.current
         Button({
-            classes("mdc-icon-button", "mdc-icon-button--touch", "material-icons")
+            classes("mdc-icon-button", "mdc-text-icon-button", "mdc-icon-button--touch")
             classes(*additionalClasses)
-            if (label != null) {
-                attr("aria-label", label)
-            }
             onClick { onClick() }
             attrs?.invoke(this)
         }) {
             Div({ classes("mdc-icon-button__ripple") })
             MdcRipple(unbounded)
             Span({ classes("mdc-icon-button__focus-ring") })
-            Text(icon)
+            Text(label)
             Div({ classes("mdc-icon-button__touch") })
         }
     }

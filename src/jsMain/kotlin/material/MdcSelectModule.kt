@@ -3,15 +3,13 @@
 
 package material
 
-import org.w3c.dom.CustomEvent
+import material.utils._Internal_MdcWidget
 import org.w3c.dom.HTMLElement
 
 
 @JsName("MDCSelect")
-internal external class _Internal_MDCSelect(el: HTMLElement) {
+internal external class _Internal_MDCSelect(el: HTMLElement) : _Internal_MdcWidget {
 
     var value: String
-
-    fun listen(event: String, listener: (CustomEvent) -> Unit)
 
 }

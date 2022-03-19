@@ -3,11 +3,11 @@ package material
 import androidx.compose.runtime.*
 import kotlinx.coroutines.yield
 import org.jetbrains.compose.web.ExperimentalComposeWebSvgApi
-import org.jetbrains.compose.web.css.CSSNumeric
-import org.jetbrains.compose.web.css.width
 import org.jetbrains.compose.web.dom.*
+import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.svg.Polygon
 import org.jetbrains.compose.web.svg.Svg
+import org.w3c.dom.*
 
 
 @Suppress("unused")
@@ -16,13 +16,14 @@ private external val MdcSelectStyle: dynamic
 
 
 
-class MdcSelectContext {
+class MdcSelectContext(scope: DOMScope<HTMLUListElement>) : DOMScope<HTMLUListElement> by scope {
 
     @Composable
     fun MdcSelectOption(
         value: String,
         disabled: Boolean = false,
-        content: (@Composable () -> Unit)?
+        attrs: AttrBuilderContext<HTMLLIElement>? = null,
+        content: ContentBuilder<HTMLSpanElement>? = null
     ) {
         Li({
             classes("mdc-deprecated-list-item")
@@ -34,6 +35,7 @@ class MdcSelectContext {
             }
             attr("data-value", value)
             attr("role", "option")
+            attrs?.invoke(this)
         }) {
             Span({ classes("mdc-deprecated-list-item__ripple") })
             MdcRipple()
@@ -54,7 +56,9 @@ fun MdcSelect(
     label: String,
     variant: MdcSelectVariant = MdcSelectVariant.Outlined,
     listAriaLabel: String? = null,
-    width: CSSNumeric? = null,
+    fixed: Boolean = false,
+    selectAttrs: AttrBuilderContext<HTMLDivElement>? = null,
+    menuAttrs: AttrBuilderContext<HTMLDivElement>? = null,
     content: @Composable MdcSelectContext.() -> Unit
 ) {
     Div({
@@ -65,9 +69,7 @@ fun MdcSelect(
                 MdcSelectVariant.Outlined -> "mdc-select--outlined"
             }
         )
-        if (width != null) {
-            style { width(width) }
-        }
+        selectAttrs?.invoke(this)
     }) {
         var count by remember { mutableStateOf(0) }
         var select by remember { mutableStateOf<_Internal_MDCSelect?>(null) }
@@ -159,7 +161,15 @@ fun MdcSelect(
             MdcRipple()
         }
 
-        Div({ classes("mdc-select__menu", "mdc-menu", "mdc-menu-surface", "mdc-menu-surface--fullwidth") }) {
+        Div({
+            classes("mdc-select__menu", "mdc-menu", "mdc-menu-surface")
+            if (fixed) {
+                classes("mdc-menu-surface--fixed")
+            } else {
+                classes("mdc-menu-surface--fullwidth")
+            }
+            menuAttrs?.invoke(this)
+        }) {
             Ul({
                 classes("mdc-deprecated-list")
                 attr("role", "listbox")
@@ -167,7 +177,7 @@ fun MdcSelect(
                     attr("aria-label", listAriaLabel)
                 }
             }) {
-                MdcSelectContext().content()
+                MdcSelectContext(this).content()
             }
         }
     }

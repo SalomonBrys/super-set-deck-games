@@ -1,67 +1,102 @@
 package material
 
 import androidx.compose.runtime.*
-import org.jetbrains.compose.web.dom.Div
-import org.jetbrains.compose.web.dom.Li
-import org.jetbrains.compose.web.dom.Span
-import org.jetbrains.compose.web.dom.Ul
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
+import org.jetbrains.compose.web.dom.*
+import org.w3c.dom.*
 
 
 @Suppress("unused")
 @JsModule("@material/menu/dist/mdc.menu.css")
 private external val MdcMenuStyle: dynamic
 
-class MdcMenuContext {
+@Suppress("unused")
+@JsModule("@material/menu-surface/dist/mdc.menu-surface.css")
+private external val MdcMenuSurfaceStyle: dynamic
 
-    internal val list = ArrayList<Pair<() -> Unit, @Composable () -> Unit>>()
 
-    fun menuItem(onSelect: () -> Unit, content: @Composable () -> Unit) {
-        list.add(onSelect to content)
+class MdcMenuContext(private val callbacks: MutableList<() -> Unit>, scope: DOMScope<HTMLUListElement>) : DOMScope<HTMLUListElement> by scope {
+
+    private var first = false
+
+    @Composable
+    fun MdcMenuItem(
+        onSelect: () -> Unit,
+        attrs: AttrBuilderContext<HTMLLIElement>? = null,
+        content: ContentBuilder<HTMLSpanElement>
+    ) {
+        callbacks.add(onSelect)
+        Li({
+            classes("mdc-deprecated-list-item")
+            attr("role", "menuitem")
+            if (first) {
+                tabIndex(0)
+            }
+            first = false
+            attrs?.invoke(this)
+        }) {
+            Span({ classes("mdc-deprecated-list-item__ripple") })
+            Span({ classes("mdc-deprecated-list-item__text") }) {
+                content()
+            }
+        }
+
     }
 }
 
 @Composable
 fun MdcMenu(
-    anchorContent: @Composable (() -> Unit) -> Unit,
-    menuContent: MdcMenuContext.() -> Unit
+    trigger: Flow<Boolean>,
+    attrs: AttrBuilderContext<HTMLDivElement>? = null,
+    content: @Composable MdcMenuContext.() -> Unit
 ) {
-    val list by rememberUpdatedState(MdcMenuContext().apply(menuContent).list)
+    val callbacks by rememberUpdatedState(ArrayList<() -> Unit>())
 
-    Div({ classes("mdc-menu-surface--anchor") }) {
+    Div({
+        classes("mdc-menu", "mdc-menu-surface")
+        attrs?.invoke(this)
+    }) {
         var menu by remember { mutableStateOf<_Internal_MDCMenu?>(null) }
-        anchorContent {
-            menu?.open = true
-        }
-        Div({ classes("mdc-menu", "mdc-menu-surface") }) {
-            DisposableEffect(null) {
-                menu = _Internal_MDCMenu(scopeElement)
-                menu!!.listen("MDCMenu:selected") {
-                    val (callback, _) =
-                        list[it.detail.unsafeCast<_Internal_MDCMenu.SelectedDetails>().index]
-                    callback.invoke()
-                }
-                onDispose {}
-            }
 
-            Ul({
-                classes("mdc-deprecated-list")
-                attr("role", "menu")
-                attr("aria-hidden", "true")
-                attr("aria-orientation", "vertical")
-                tabIndex(-1)
-            }) {
-                list.forEach { (_, content) ->
-                    Li({
-                        classes("mdc-deprecated-list-item")
-                        attr("role", "menuitem")
-                    }) {
-                        Span({ classes("mdc-deprecated-list-item__ripple") })
-                        Span({ classes("mdc-deprecated-list-item__text") }) {
-                            content()
-                        }
-                    }
-                }
+        DisposableEffect(null) {
+            val m = _Internal_MDCMenu(scopeElement)
+            m.listen("MDCMenu:selected") {
+                callbacks[it.detail.unsafeCast<_Internal_MDCMenu.SelectedDetails>().index].invoke()
+            }
+            menu = m
+            onDispose {}
+        }
+
+        LaunchedEffect(trigger, menu) {
+            val m = menu ?: return@LaunchedEffect
+            trigger.collect {
+                m.open = true
             }
         }
+
+        Ul({
+            classes("mdc-deprecated-list")
+            attr("role", "menu")
+            attr("aria-hidden", "true")
+            attr("aria-orientation", "vertical")
+            tabIndex(-1)
+        }) {
+            MdcMenuContext(callbacks, this).content()
+        }
+    }
+
+}
+
+@Composable
+fun MdcMenuAnchor(
+    attrs: AttrBuilderContext<HTMLDivElement>? = null,
+    content: ContentBuilder<HTMLDivElement>
+) {
+    Div({
+        classes("mdc-menu-surface--anchor")
+        attrs?.invoke(this)
+    }) {
+        content()
     }
 }

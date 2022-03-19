@@ -1,7 +1,11 @@
 package material
 
 import androidx.compose.runtime.*
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.collect
 import org.jetbrains.compose.web.dom.*
+import org.jetbrains.compose.web.dom.Text
+import org.w3c.dom.*
 
 
 @Suppress("unused")
@@ -9,13 +13,18 @@ import org.jetbrains.compose.web.dom.*
 private external val MdcDialogStyle: dynamic
 
 
-class MdcDialogActionsContext {
+class MdcDialogActionsContext(scope: DOMScope<HTMLDivElement>) : DOMScope<HTMLDivElement> by scope {
     @Composable
-    fun MdcDialogAction(action: String, content: @Composable () -> Unit) {
+    fun MdcDialogAction(
+        action: String,
+        attrs: AttrBuilderContext<HTMLButtonElement>? = null,
+        content: ContentBuilder<HTMLSpanElement>
+    ) {
         MdcButton(
             onClick = {},
             attrs = {
                 attr("data-mdc-dialog-action", action)
+                attrs?.invoke(this)
             }
         ) {
             content()
@@ -23,51 +32,95 @@ class MdcDialogActionsContext {
     }
 }
 
-class MdcDialogContentContext {
+class MdcDialogContentContext(scope: DOMScope<HTMLDivElement>) : DOMScope<HTMLDivElement> by scope {
     @Composable
-    fun MdcListContext.MdcDialogListItem(action: String, content: @Composable MdcListListItemContext.() -> Unit) {
+    fun MdcListContext.MdcDialogListItem(
+        action: String,
+        attrs: AttrBuilderContext<HTMLLIElement>? = null,
+        content: @Composable MdcListListItemContext.() -> Unit
+    ) {
         MdcListItem(
             attrs = {
                 attr("data-mdc-dialog-action", action)
+                attrs?.invoke(this)
             },
             content = content
         )
     }
 }
 
-class MdcDialogContext {
+class MdcDialogContext(private val fullScreen: Boolean, scope: DOMScope<HTMLDivElement>) : DOMScope<HTMLDivElement> by scope {
     @Composable
-    fun MdcDialogTitle(content: @Composable () -> Unit) {
-        H2({ classes("mdc-dialog__title") }) { content() }
-    }
-
-    @Composable
-    fun MdcDialogContent(content: @Composable MdcDialogContentContext.() -> Unit) {
-        Div({ classes("mdc-dialog__content") }) {
-            MdcDialogContentContext().content()
+    fun MdcDialogTitle(
+        attrs: AttrBuilderContext<HTMLHeadingElement>? = null,
+        content: ContentBuilder<HTMLHeadingElement>
+    ) {
+        if (fullScreen) {
+            Div({
+                classes("mdc-dialog__header")
+            }) {
+                H2({
+                    classes("mdc-dialog__title")
+                    attrs?.invoke(this)
+                }) { content() }
+                Button({
+                    classes("mdc-icon-button", "material-icons", "mdc-dialog__close")
+                    attr("data-mdc-dialog-action", "close")
+                }) { Text("close") }
+            }
+        } else {
+            H2({
+                classes("mdc-dialog__title")
+                attrs?.invoke(this)
+            }) { content() }
         }
     }
 
     @Composable
-    fun MdcDialogActions(content: @Composable MdcDialogActionsContext.() -> Unit) {
-        Div({ classes("mdc-dialog__actions") }) {
-            MdcDialogActionsContext().content()
+    fun MdcDialogContent(
+        attrs: AttrBuilderContext<HTMLDivElement>? = null,
+        content: @Composable MdcDialogContentContext.() -> Unit
+    ) {
+        Div({
+            classes("mdc-dialog__content")
+            attrs?.invoke(this)
+        }) {
+            MdcDialogContentContext(this).content()
+        }
+    }
+
+    @Composable
+    fun MdcDialogActions(
+        attrs: AttrBuilderContext<HTMLDivElement>? = null,
+        content: @Composable MdcDialogActionsContext.() -> Unit
+    ) {
+        Div({
+            classes("mdc-dialog__actions")
+            attrs?.invoke(this)
+        }) {
+            MdcDialogActionsContext(this).content()
         }
     }
 }
 
 @Composable
 fun MdcDialog(
+    trigger: Flow<Boolean>,
     onAction: (String) -> Unit,
-    anchorContent: @Composable (() -> Unit) -> Unit,
+    fullScreen: Boolean = false,
+    dialogAttrs: AttrBuilderContext<HTMLDivElement>? = null,
+    surfaceAttrs: AttrBuilderContext<HTMLDivElement>? = null,
     content: @Composable MdcDialogContext.() -> Unit
 ) {
-    var dialog by remember { mutableStateOf<_Internal_MDCDialog?>(null) }
-    anchorContent { dialog?.open() }
-
     Div({
         classes("mdc-dialog")
+        if (fullScreen) {
+            classes("mdc-dialog--fullscreen")
+        }
+        dialogAttrs?.invoke(this)
     }) {
+        var dialog by remember { mutableStateOf<_Internal_MDCDialog?>(null) }
+
         DisposableEffect(null) {
             dialog = _Internal_MDCDialog(scopeElement)
             dialog!!.listen("MDCDialog:closing") {
@@ -76,15 +129,24 @@ fun MdcDialog(
             onDispose {}
         }
 
+        LaunchedEffect(trigger, dialog) {
+            val d = dialog ?: return@LaunchedEffect
+            trigger.collect {
+                if (it) d.open()
+                else d.close()
+            }
+        }
+
         Div({
             classes("mdc-dialog__container")
         }) {
             Div({
                 classes("mdc-dialog__surface")
-                attr("role", "alertdialog")
+                attr("role", if (fullScreen) "dialog" else "alertdialog")
                 attr("aria-modal", "true")
+                surfaceAttrs?.invoke(this)
             }) {
-                MdcDialogContext().content()
+                MdcDialogContext(fullScreen, this).content()
             }
         }
         Div({ classes("mdc-dialog__scrim") })

@@ -3,6 +3,10 @@ package material
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import org.jetbrains.compose.web.dom.*
+import org.w3c.dom.HTMLButtonElement
+import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.HTMLElement
+import org.w3c.dom.HTMLSpanElement
 
 
 @Suppress("unused")
@@ -12,30 +16,56 @@ private external val MdcTopAppBarStyle: dynamic
 
 enum class SectionAlign { Start, End }
 
-class MdcTopAppBarSectionContext {
-    @Composable
-    fun Title(content: @Composable () -> Unit) {
-        Span({ classes("mdc-top-app-bar__title") }) { content() }
-    }
+class MdcTopAppBarSectionContext(scope: DOMScope<HTMLElement>) : DOMScope<HTMLElement> by scope {
 
     @Composable
-    fun NavigationIcon(icon: String, label: String? = null, onClick: () -> Unit) {
-        MdcAdditionalButtonClasses("mdc-top-app-bar__navigation-icon") {
-            MdcIconButton(icon, label, onClick = onClick)
+    fun Title(
+        attrs: AttrBuilderContext<HTMLSpanElement>? = null,
+        content: ContentBuilder<HTMLSpanElement>
+    ) {
+        Span({
+            classes("mdc-top-app-bar__title")
+            attrs?.invoke(this)
+        }) {
+            content()
         }
     }
 
     @Composable
-    fun Action(content: @Composable () -> Unit) {
+    fun NavigationIcon(
+        icon: String,
+        label: String? = null,
+        attrs: AttrBuilderContext<HTMLButtonElement>? = null,
+        onClick: () -> Unit
+    ) {
+        MdcAdditionalButtonClasses("mdc-top-app-bar__navigation-icon") {
+            MdcIconButton(
+                icon = icon,
+                label = label,
+                onClick = onClick,
+                attrs = attrs
+            )
+        }
+    }
+
+    @Composable
+    fun Action(
+        content: @Composable () -> Unit
+    ) {
         MdcAdditionalButtonClasses("mdc-top-app-bar__action-item") {
             content()
         }
     }
 }
 
-class MdcTopAppBarRowContext {
+class MdcTopAppBarRowContext(scope: DOMScope<HTMLDivElement>) : DOMScope<HTMLDivElement> by scope {
+
     @Composable
-    fun Section(align: SectionAlign, content: @Composable MdcTopAppBarSectionContext.() -> Unit) {
+    fun Section(
+        align: SectionAlign,
+        attrs: AttrBuilderContext<HTMLElement>? = null,
+        content: @Composable MdcTopAppBarSectionContext.() -> Unit
+    ) {
         Section({
             classes(
                 "mdc-top-app-bar__section",
@@ -44,37 +74,55 @@ class MdcTopAppBarRowContext {
                     SectionAlign.End -> "mdc-top-app-bar__section--align-end"
                 }
             )
+            attrs?.invoke(this)
         }) {
-            MdcTopAppBarSectionContext().content()
+            MdcTopAppBarSectionContext(this).content()
         }
     }
 }
 
-class MdcTopAppBarContext {
+class MdcTopAppBarContext(scope: DOMScope<HTMLElement>) : DOMScope<HTMLElement> by scope {
+
     @Composable
-    fun Row(content: @Composable MdcTopAppBarRowContext.() -> Unit) {
-        Div({ classes("mdc-top-app-bar__row") }) {
-            MdcTopAppBarRowContext().content()
+    fun Row(
+        attrs: AttrBuilderContext<HTMLDivElement>? = null,
+        content: @Composable MdcTopAppBarRowContext.() -> Unit
+    ) {
+        Div({
+            classes("mdc-top-app-bar__row")
+            attrs?.invoke(this)
+        }) {
+            MdcTopAppBarRowContext(this).content()
         }
     }
 }
 
 @Composable
-fun MdcTopAppBar(content: @Composable MdcTopAppBarContext.() -> Unit) {
-    Header({ classes("mdc-top-app-bar") }) {
+fun MdcTopAppBar(
+    attrs: AttrBuilderContext<HTMLElement>? = null,
+    content: @Composable MdcTopAppBarContext.() -> Unit
+) {
+    Header({
+        classes("mdc-top-app-bar")
+        attrs?.invoke(this)
+    }) {
         DisposableEffect(null) {
             _Internal_MDCTopAppBar(scopeElement)
             onDispose {}
         }
 
-        MdcTopAppBarContext().content()
+        MdcTopAppBarContext(this).content()
     }
 }
 
 @Composable
-fun MdcTopAppBarMain(withTabs: Boolean = false, content: @Composable () -> Unit) {
+fun MdcTopAppBarMain(
+    attrs: AttrBuilderContext<HTMLElement>? = null,
+    content: ContentBuilder<HTMLElement>
+) {
     Main({
-        classes(if (withTabs) "mdc-top-app-bar--fixed-adjust-with-tabs" else "mdc-top-app-bar--fixed-adjust")
+        classes("mdc-top-app-bar--fixed-adjust")
+        attrs?.invoke(this)
     }) {
         content()
     }

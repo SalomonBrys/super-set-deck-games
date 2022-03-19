@@ -53,7 +53,7 @@
     "@material/theme" "^13.0.0"
     tslib "^2.1.0"
 
-"@material/checkbox@^13.0.0":
+"@material/checkbox@13.0.0", "@material/checkbox@^13.0.0":
   version "13.0.0"
   resolved "https://registry.yarnpkg.com/@material/checkbox/-/checkbox-13.0.0.tgz#ee7ca7930586102a748998239672f62724a90ad9"
   integrity sha512-tRC6n9Jq7GgdU0d1F8NOvUy6WiRZR58tUgL1QqoiQK9PGKSt0dAF3Aa48uubO7/Lt9K4NqgwV6/OeHv8pHaM/w==
@@ -125,6 +125,24 @@
     "@material/feature-targeting" "^13.0.0"
     tslib "^2.1.0"
 
+"@material/drawer@13.0.0":
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/@material/drawer/-/drawer-13.0.0.tgz#35bb370f44ac860ca38ce722144869edc86da9f9"
+  integrity sha512-TIV/K9MED3ymngmKrdLwOMhUF44BzoR6HuTVsZAM4bgy0sfSv+jzgaGUqJsvjEhTXk+Q9OTEge+TsU/ETzQCbg==
+  dependencies:
+    "@material/animation" "^13.0.0"
+    "@material/base" "^13.0.0"
+    "@material/dom" "^13.0.0"
+    "@material/elevation" "^13.0.0"
+    "@material/feature-targeting" "^13.0.0"
+    "@material/list" "^13.0.0"
+    "@material/ripple" "^13.0.0"
+    "@material/rtl" "^13.0.0"
+    "@material/shape" "^13.0.0"
+    "@material/theme" "^13.0.0"
+    "@material/typography" "^13.0.0"
+    tslib "^2.1.0"
+
 "@material/elevation@^13.0.0":
   version "13.0.0"
   resolved "https://registry.yarnpkg.com/@material/elevation/-/elevation-13.0.0.tgz#ae3eabc20e864240144fdf5c16b09a1e7a52852c"
@@ -153,6 +171,19 @@
     "@material/base" "^13.0.0"
     "@material/dom" "^13.0.0"
     "@material/feature-targeting" "^13.0.0"
+    "@material/rtl" "^13.0.0"
+    "@material/theme" "^13.0.0"
+    "@material/typography" "^13.0.0"
+    tslib "^2.1.0"
+
+"@material/form-field@13.0.0":
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/@material/form-field/-/form-field-13.0.0.tgz#59f50b342bc20562fa2c78c17ac4385236f89c99"
+  integrity sha512-cXs5uYA89KgrXrU1UYkl52JizeIK3Mx9LjBw4ZYiyQJzFaBTPYsYWGSJMad1HZhWlRiigGTyN1M9ePIxtBpi0Q==
+  dependencies:
+    "@material/base" "^13.0.0"
+    "@material/feature-targeting" "^13.0.0"
+    "@material/ripple" "^13.0.0"
     "@material/rtl" "^13.0.0"
     "@material/theme" "^13.0.0"
     "@material/typography" "^13.0.0"

@@ -47,8 +47,11 @@ kotlin {
                 val materialWebComponentsVersion = "13.0.0"
                 implementation(npm("@material/button", materialWebComponentsVersion))
                 implementation(npm("@material/card", materialWebComponentsVersion))
+                implementation(npm("@material/checkbox", materialWebComponentsVersion))
                 implementation(npm("@material/chips", materialWebComponentsVersion))
                 implementation(npm("@material/dialog", materialWebComponentsVersion))
+                implementation(npm("@material/drawer", materialWebComponentsVersion))
+                implementation(npm("@material/form-field", materialWebComponentsVersion))
                 implementation(npm("@material/icon-button", materialWebComponentsVersion))
                 implementation(npm("@material/list", materialWebComponentsVersion))
                 implementation(npm("@material/menu", materialWebComponentsVersion))

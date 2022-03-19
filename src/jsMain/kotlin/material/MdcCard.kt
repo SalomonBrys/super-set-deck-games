@@ -15,8 +15,8 @@ private external val MdcCardStyle: dynamic
 
 @Composable
 fun MdcCard(
-    attrs: AttrBuilderContext<HTMLDivElement>? = null,
     onClick: (() -> Unit)? = null,
+    attrs: AttrBuilderContext<HTMLDivElement>? = null,
     content: ContentBuilder<HTMLDivElement>
 ) {
     Div({

@@ -5,6 +5,7 @@ import kotlinx.coroutines.yield
 import org.jetbrains.compose.web.dom.*
 import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLDivElement
+import org.w3c.dom.HTMLSpanElement
 
 
 @Suppress("unused")
@@ -24,12 +25,13 @@ private external val MdcTabIndicatorStyle: dynamic
 private external val MdcTabStyle: dynamic
 
 
-class MdcTabBarContext {
+class MdcTabBarContext(scope: DOMScope<HTMLDivElement>) : DOMScope<HTMLDivElement> by scope {
+
     @Composable
     fun MdcTab(
         icon: String? = null,
         attrs: AttrBuilderContext<HTMLButtonElement>? = null,
-        content: @Composable () -> Unit
+        content: ContentBuilder<HTMLSpanElement>
     ) {
         Button({
             classes("mdc-tab")
@@ -76,7 +78,6 @@ fun MdcTabBar(
         DisposableEffect(null) {
             tabBar = _Internal_MDCTabBar(scopeElement)
             tabBar!!.focusOnActivate = false
-//            tabBar!!.activateTab(selected)
 
             tabBar!!.listen("MDCTabBar:activated") {
                 val newSelected = it.detail.unsafeCast<_Internal_MDCTabBar.ActivatedDetails>().index
@@ -91,7 +92,6 @@ fun MdcTabBar(
 
         LaunchedEffect(tabBar, selected, count) {
             if (tabBar == null || selected == -1) return@LaunchedEffect
-//            if (tabBar!!.value == selected) return@LaunchedEffect
             yield()
             tabBar!!.activateTab(selected)
         }
@@ -99,7 +99,7 @@ fun MdcTabBar(
         Div({ classes("mdc-tab-scroller") }) {
             Div({ classes("mdc-tab-scroller__scroll-area") }) {
                 Div({ classes("mdc-tab-scroller__scroll-content") }) {
-                    MdcTabBarContext().content()
+                    MdcTabBarContext(this).content()
                 }
             }
         }

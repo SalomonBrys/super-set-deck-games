@@ -6,6 +6,7 @@ import androidx.compose.runtime.compositionLocalOf
 import org.jetbrains.compose.web.dom.*
 import org.w3c.dom.HTMLButtonElement
 import org.w3c.dom.HTMLLIElement
+import org.w3c.dom.HTMLSpanElement
 
 
 @Suppress("unused")
@@ -31,7 +32,7 @@ fun MdcButton(
     variant: MdcButtonVariant = MdcButtonVariant.Text,
     icon: String? = null,
     attrs: AttrBuilderContext<HTMLButtonElement>? = null,
-    content: @Composable () -> Unit
+    content: ContentBuilder<HTMLSpanElement>
 ) {
     Div({
         classes("mdc-touch-target-wrapper")
