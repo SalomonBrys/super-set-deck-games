@@ -1,7 +1,7 @@
 package material_custom
 
 import androidx.compose.runtime.Composable
-import material.LocalAdditionalClasses
+import material.LocalButtonAdditionalClasses
 import material.MdcRipple
 import org.jetbrains.compose.web.dom.*
 import org.w3c.dom.HTMLButtonElement
@@ -17,7 +17,7 @@ fun MdcTextIconButton(
     Div({
         classes("mdc-touch-target-wrapper")
     }) {
-        val additionalClasses = LocalAdditionalClasses.current
+        val additionalClasses = LocalButtonAdditionalClasses.current
         Button({
             classes("mdc-icon-button", "mdc-text-icon-button", "mdc-icon-button--touch")
             classes(*additionalClasses)

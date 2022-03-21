@@ -19,8 +19,8 @@ fun FlexDiv(
         style {
             display(DisplayStyle.Flex)
             flexDirection(dir)
-            if (justifyContent != null) { justifyContent(JustifyContent.Center) }
-            if (alignItems != null) { alignItems(AlignItems.Center) }
+            if (justifyContent != null) { justifyContent(justifyContent) }
+            if (alignItems != null) { alignItems(alignItems) }
         }
         attrs?.invoke(this)
     }) {

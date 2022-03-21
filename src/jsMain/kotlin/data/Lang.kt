@@ -4,42 +4,50 @@ import androidx.compose.runtime.compositionLocalOf
 
 data class Lang(
     val id: String,
-    val games: String,
+    val Games: String,
+    val Cards: String,
     val player: String,
     val players: String,
     val allTypes: String,
-    val rules: String,
-    val references: String,
-    val addGame: String,
-    val variants: String,
+    val Rules: String,
+    val References: String,
+    val Add_game: String,
+    val Variants: String,
+    val Packer: String,
 
-    val gameTypes: Map<String, String> = emptyMap()
+    val gameTypes: Map<String, String> = emptyMap(),
+    val cardNames: Map<String, String> = emptyMap()
+
 )
 
 val langs = mapOf(
 
     "en" to Lang(
         id = "en",
-        games = "Games",
+        Games = "Games",
+        Cards = "Cards",
         player = "player",
         players = "players",
         allTypes = "all types",
-        rules = "Rules",
-        references = "References",
-        addGame = "Add game",
-        variants = "Variants",
+        Rules = "Rules",
+        References = "References",
+        Add_game = "Add game",
+        Variants = "Variants",
+        Packer = "Packer"
     ),
 
     "fr" to Lang(
         id = "fr",
-        games = "Jeux",
+        Games = "Jeux",
+        Cards = "Cartes",
         player = "joueur·euse",
         players = "joueur·euse·s",
         allTypes = "tous types",
-        rules = "Règles",
-        references = "Références",
-        addGame = "Ajouter un jeu",
-        variants = "Variantes",
+        Rules = "Règles",
+        References = "Références",
+        Add_game = "Ajouter un jeu",
+        Variants = "Variantes",
+        Packer = "Packer",
 
         gameTypes = mapOf(
             "Cooperative" to "Coopératif",
@@ -52,6 +60,24 @@ val langs = mapOf(
             "Set Collection" to "Collection d'ensembles",
             "Team Based" to "En Équipe",
             "Trick Taking" to "Prise de pli"
+        ),
+
+        cardNames = mapOf(
+            "spades" to "piques",
+            "hearts" to "coeurs",
+            "clubs" to "trèfles",
+            "diamonds" to "carreaux",
+            "florettes" to "fleurettes",
+            "wheels" to "roues",
+            "stars" to "étoiles",
+            "specials" to "spéciales",
+
+            "Butterfly" to "Papillon",
+            "Wolf" to "Loup",
+            "Owl" to "Chouette",
+            "Turtle" to "Tortue",
+            "Toad" to "Crapaud",
+            "Monkey" to "Singe"
         )
     )
 

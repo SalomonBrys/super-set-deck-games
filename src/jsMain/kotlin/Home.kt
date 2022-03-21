@@ -27,24 +27,44 @@ private fun HomeTopBar(title: String, trigger: MdcTrigger, langMenu: LangMenu) {
     }
 }
 
+enum class Page { Games, Packer }
 
 @Composable
 fun NavBuilder.Home(games: List<Game>?, langMenu: LangMenu) {
 
     val trigger = rememberMdcTrigger()
 
-    var title by remember { mutableStateOf("") }
+    var page: Page? by remember { mutableStateOf(null) }
 
     MdcDrawer(trigger.flow) {
-        MdcNavList({
-            onClick { trigger.close() }
-        }) {
-            MdcNavListItem("#/games") { Text(LocalLang.current.games) }
-            MdcNavListItem("#/games/packer") { Text("Packer") }
+        MdcDrawerHeader {
+            MdcDrawerHeaderTitle {
+                Text("Super-Deck‽")
+            }
+            MdcDrawerHeaderSubtitle {
+                Text("196 ${LocalLang.current.Cards}")
+                games?.size?.let { Text(", $it ${LocalLang.current.Cards}") }
+                Text("!")
+            }
+        }
+        MdcDrawerContent {
+            MdcNavList({
+                onClick { trigger.close() }
+            }) {
+                MdcNavListItem("#/games", page == Page.Games) { Text(LocalLang.current.Games) }
+                MdcNavListItem("#/games/packer", page == Page.Packer) { Text("Packer") }
+            }
         }
     }
 
-    HomeTopBar(title, trigger, langMenu)
+    HomeTopBar(
+        when (page) {
+            Page.Games -> LocalLang.current.Games
+            Page.Packer -> "Packer"
+            null -> ""
+        },
+        trigger, langMenu
+    )
 
     MdcTopAppBarMain {
         FlexColumn(JustifyContent.Center, AlignItems.Center) {
@@ -52,7 +72,7 @@ fun NavBuilder.Home(games: List<Game>?, langMenu: LangMenu) {
             val lang by rememberUpdatedState(LocalLang.current)
 
             route("/packer") {
-                SideEffect { title = "Packer" }
+                SideEffect { page = Page.Packer }
                 if (games == null) {
                     Loader()
                 } else {
@@ -60,14 +80,15 @@ fun NavBuilder.Home(games: List<Game>?, langMenu: LangMenu) {
                 }
             }
             route("/") {
-                SideEffect { title = lang.games }
+                SideEffect { page = Page.Games }
                 if (games == null) {
                     Loader()
                 } else {
                     GamesList(
                         games = games,
                         playerCount = parameters?.map?.get("playerCount")?.firstOrNull()?.toIntOrNull() ?: 0,
-                        gameType = parameters?.map?.get("gameType")?.firstOrNull()
+                        gameType = parameters?.map?.get("gameType")?.firstOrNull(),
+                        favorites = parameters?.map?.get("favorites")?.firstOrNull() == "1"
                     )
                 }
             }

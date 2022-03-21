@@ -107,9 +107,11 @@ class MdcNavListContext(scope: DOMScope<HTMLElement>) : AbstractMdcListContext<H
     @Composable
     fun MdcNavListItem(
         href: String,
+        selected: Boolean = false,
         attrs: AttrBuilderContext<HTMLAnchorElement>? = null,
         content: @Composable MdcListListItemContext.() -> Unit
     ) = listItem({
+        if (selected) classes("mdc-deprecated-list-item--activated")
         href(href)
         attrs?.invoke(this)
     }, content)

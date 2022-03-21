@@ -13,6 +13,7 @@ import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.*
 import utils.*
+import kotlin.time.Duration.Companion.days
 
 
 private fun Game.hasReference() = playerReferences.isNotEmpty() || gameReferences.isNotEmpty()
@@ -48,8 +49,8 @@ private fun GameTopBar(game: Game?, langMenu: LangMenu, selectedTab: Int, select
                             window.scrollTo(ScrollToOptions(top = 0.0, behavior = ScrollBehavior.SMOOTH))
                         }
                     }
-                }) { Text(LocalLang.current.rules) }
-                MdcTab("lightbulb") { Text(LocalLang.current.references) }
+                }) { Text(LocalLang.current.Rules) }
+                MdcTab("lightbulb") { Text(LocalLang.current.References) }
             }
         }
     }
@@ -74,7 +75,21 @@ private fun GameRules(game: Game, section: String?) {
             fontSize(2.5.em)
             marginBottom(0.5.cssRem)
         }
-    }) { Text(game.names.get(LocalLang.current.id) ?: game.names.get("en") ?: game.names.values.firstOrNull() ?: "") }
+    }) {
+        var isFav by remember { mutableStateOf(Cookies["favs"]?.split(",")?.contains(encodeURIComponent(game.id)) ?: false) }
+
+        MdcIconButton(if (isFav) "star" else "star_border") {
+            val newFav = !isFav
+            val favs = Cookies["favs"]?.split(",")?.toSet() ?: emptySet()
+            Cookies.set(
+                "favs",
+                (if (newFav) favs + encodeURIComponent(game.id) else favs - encodeURIComponent(game.id)).joinToString(","),
+                (5 * 365).days
+            )
+            isFav = newFav
+        }
+        Text(game.names[LocalLang.current.id] ?: game.names["en"] ?: game.names.values.firstOrNull() ?: "")
+    }
 
     MdcChipSet({
         style {

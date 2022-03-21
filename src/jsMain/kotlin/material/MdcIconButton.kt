@@ -3,7 +3,6 @@ package material
 import androidx.compose.runtime.Composable
 import org.jetbrains.compose.web.dom.*
 import org.w3c.dom.HTMLButtonElement
-import org.w3c.dom.HTMLDivElement
 
 
 @Suppress("unused")
@@ -22,7 +21,7 @@ fun MdcIconButton(
     Div({
         classes("mdc-touch-target-wrapper")
     }) {
-        val additionalClasses = LocalAdditionalClasses.current
+        val additionalClasses = LocalButtonAdditionalClasses.current
         Button({
             classes("mdc-icon-button", "mdc-icon-button--touch", "material-icons")
             classes(*additionalClasses)

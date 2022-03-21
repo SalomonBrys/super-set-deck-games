@@ -1,22 +1,22 @@
-import androidx.compose.runtime.*
-import app.softwork.routingcompose.NavBuilder
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberUpdatedState
 import app.softwork.routingcompose.Router
 import data.Game
 import data.LocalLang
 import data.name
 import material.*
-import material.utils.MdcTrigger
 import material.utils.rememberMdcTrigger
 import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.dom.Text
-import utils.FlexColumn
-import utils.encodeURIComponent
+import org.jetbrains.compose.web.dom.*
+import utils.*
 
 
-private fun Router.applyFilter(playerCount: Int, gameType: String?) {
+private fun Router.applyFilter(playerCount: Int, gameType: String?, favorites: Boolean) {
     val params = buildList {
         if (playerCount != 0) add("playerCount=$playerCount")
         if (gameType != null) add("gameType=${encodeURIComponent(gameType)}")
+        if (favorites) add("favorites=1")
     }
     navigate(
         if (params.isNotEmpty()) "/games?${params.joinToString("&")}"
@@ -35,11 +35,12 @@ private fun List<Game>.gameTypes(playerCount: Int): List<String> =
         .distinct().sorted()
 
 @Composable
-private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: String?) {
+private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: String?, favorites: Boolean) {
     val router = Router.current
 
     @Suppress("NAME_SHADOWING") val playerCount by rememberUpdatedState(playerCount)
     @Suppress("NAME_SHADOWING") val gameType by rememberUpdatedState(gameType)
+    @Suppress("NAME_SHADOWING") val favorites by rememberUpdatedState(favorites)
 
     val allCounts = games.playerCounts(null)
 
@@ -61,7 +62,8 @@ private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: Stri
                 if (it.startsWith("s:")) {
                     router.applyFilter(
                         playerCount = if (it == "s:all") 0 else it.removePrefix("s:").toInt(),
-                        gameType = gameType
+                        gameType = gameType,
+                        favorites = favorites
                     )
                 }
             }
@@ -95,7 +97,8 @@ private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: Stri
                 if (it.startsWith("s:")) {
                     router.applyFilter(
                         playerCount = playerCount,
-                        gameType = if (it == "s:all") null else it.removePrefix("s:")
+                        gameType = if (it == "s:all") null else it.removePrefix("s:"),
+                        favorites = favorites
                     )
                 }
             }
@@ -117,11 +120,27 @@ private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: Stri
         }
     }
 
+    MdcFormField {
+        MdcCheckbox(
+            id = "favorites",
+            checked = favorites,
+            onChange = { checked ->
+                router.applyFilter(
+                    playerCount = playerCount,
+                    gameType = gameType,
+                    favorites = checked
+                )
+            }
+        )
+        Label(forId = "favorites") {
+            Text("Favorites only")
+        }
+    }
 }
 
 @Composable
-fun GamesList(games: List<Game>, playerCount: Int, gameType: String?) {
-    GamesListFilters(games, playerCount, gameType)
+fun GamesList(games: List<Game>, playerCount: Int, gameType: String?, favorites: Boolean) {
+    GamesListFilters(games, playerCount, gameType, favorites)
 
     MdcList({
         style {
@@ -131,12 +150,17 @@ fun GamesList(games: List<Game>, playerCount: Int, gameType: String?) {
     }) {
         val router = Router.current
 
+        val favs = Cookies["favs"]?.split(",")?.map { decodeURIComponent(it) }?.toSet() ?: emptySet()
+
         games
             .filter {
                 if (playerCount == 0) true else playerCount in it.playerCount
             }
             .filter {
                 if (gameType == null) true else gameType in it.types
+            }
+            .filter {
+                if (favorites) it.id in favs else true
             }
             .sortedBy { it.name }
             .forEach {
@@ -151,10 +175,24 @@ fun GamesList(games: List<Game>, playerCount: Int, gameType: String?) {
                         }
                     }
                 ) {
-                    TwoLines(
-                        primary = { Text(it.name) },
-                        secondary = { Text("${it.playerCount.joinToString()} ${LocalLang.current.players}") }
-                    )
+                    FlexRow(alignItems = AlignItems.Center) {
+                        if (it.id in favs) {
+                            I({
+                                classes("material-icons")
+                                style { width(2.cssRem) }
+                            }) { Text("star") }
+                        } else {
+                            Div({
+                                style { width(2.cssRem) }
+                            })
+                        }
+                        Div {
+                            TwoLines(
+                                primary = { Text(it.name) },
+                                secondary = { Text("${it.playerCount.toShortStrings().joinToString()} ${LocalLang.current.players}") }
+                            )
+                        }
+                    }
                 }
             }
     }

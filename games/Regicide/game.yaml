@@ -10,6 +10,6 @@ cards:
       clubs: A, 2-10, J, Q, K
       diamonds: A, 2-10, J, Q, K
     3-players:
-      specials: butterfly
+      specials: Butterfly
     1,4-players:
-      specials: butterfly*2
+      specials: Butterfly*2

@@ -5,7 +5,6 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.compositionLocalOf
 import org.jetbrains.compose.web.dom.*
 import org.w3c.dom.HTMLButtonElement
-import org.w3c.dom.HTMLLIElement
 import org.w3c.dom.HTMLSpanElement
 
 
@@ -14,12 +13,12 @@ import org.w3c.dom.HTMLSpanElement
 private external val MdcButtonStyle: dynamic
 
 
-internal val LocalAdditionalClasses = compositionLocalOf<Array<String>> { emptyArray() }
+internal val LocalButtonAdditionalClasses = compositionLocalOf<Array<String>> { emptyArray() }
 
 @Composable
 fun MdcAdditionalButtonClasses(vararg classes: String, content: @Composable () -> Unit) {
-    val current = LocalAdditionalClasses.current
-    CompositionLocalProvider(LocalAdditionalClasses provides (current + classes)) {
+    val current = LocalButtonAdditionalClasses.current
+    CompositionLocalProvider(LocalButtonAdditionalClasses provides (current + classes)) {
         content()
     }
 }
@@ -37,7 +36,7 @@ fun MdcButton(
     Div({
         classes("mdc-touch-target-wrapper")
     }) {
-        val additionalClasses = LocalAdditionalClasses.current
+        val additionalClasses = LocalButtonAdditionalClasses.current
         Button({
             classes("mdc-button", "mdc-button--touch")
             classes(*additionalClasses)

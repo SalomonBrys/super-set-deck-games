@@ -11,13 +11,13 @@ cards:
       hearts: 1-7
       clubs: 1-7
       diamonds: 1-7
-      florette: 1-7
-      wheel: 1-7
+      florettes: 1-7
+      wheels: 1-7
     5,6-players:
       stars: 0
       spades: 0
       hearts: 0
       clubs: 0
       diamonds: 0
-      florette: 0
-      wheel: 0
+      florettes: 0
+      wheels: 0

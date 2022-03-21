@@ -57,6 +57,7 @@ fun MdcSelect(
     variant: MdcSelectVariant = MdcSelectVariant.Outlined,
     listAriaLabel: String? = null,
     fixed: Boolean = false,
+    disabled: Boolean = false,
     selectAttrs: AttrBuilderContext<HTMLDivElement>? = null,
     menuAttrs: AttrBuilderContext<HTMLDivElement>? = null,
     content: @Composable MdcSelectContext.() -> Unit
@@ -69,6 +70,9 @@ fun MdcSelect(
                 MdcSelectVariant.Outlined -> "mdc-select--outlined"
             }
         )
+        if (disabled) {
+            classes("mdc-select--disabled")
+        }
         selectAttrs?.invoke(this)
     }) {
         var count by remember { mutableStateOf(0) }
@@ -100,6 +104,9 @@ fun MdcSelect(
             attr("aria-haspopup", "listbox")
             attr("aria-expanded", "false")
             attr("aria-labelledby", "floating-label selected-text")
+            if (disabled) {
+                attr("aria-disabled", "true")
+            }
         }) {
             when (variant) {
                 MdcSelectVariant.Filled -> {
