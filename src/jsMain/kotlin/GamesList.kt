@@ -133,7 +133,7 @@ private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: Stri
             }
         )
         Label(forId = "favorites") {
-            Text("Favorites only")
+            Text(LocalLang.current.Favorites_only)
         }
     }
 }

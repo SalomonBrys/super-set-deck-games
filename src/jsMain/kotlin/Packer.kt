@@ -144,7 +144,7 @@ private fun PackerDialog(gamesList: List<Game>, trigger: Flow<Pack?>, addPack: (
                             }
                         )
                         Label(forId = "favorites") {
-                            Text("Favorites only")
+                            Text(LocalLang.current.Favorites_only)
                         }
                     }
 

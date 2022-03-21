@@ -14,6 +14,7 @@ data class Lang(
     val Add_game: String,
     val Variants: String,
     val Packer: String,
+    val Favorites_only: String,
 
     val gameTypes: Map<String, String> = emptyMap(),
     val cardNames: Map<String, String> = emptyMap()
@@ -33,7 +34,8 @@ val langs = mapOf(
         References = "References",
         Add_game = "Add game",
         Variants = "Variants",
-        Packer = "Packer"
+        Packer = "Packer",
+        Favorites_only = "Favorites only",
     ),
 
     "fr" to Lang(
@@ -48,6 +50,7 @@ val langs = mapOf(
         Add_game = "Ajouter un jeu",
         Variants = "Variantes",
         Packer = "Packer",
+        Favorites_only = "Favoris seulement",
 
         gameTypes = mapOf(
             "Cooperative" to "Coopératif",
