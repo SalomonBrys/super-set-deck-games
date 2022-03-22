@@ -11,6 +11,7 @@ object Cookies {
 
     fun all() =
         document.cookie.split(";")
+            .filter { it.isNotEmpty() }
             .map { str ->
                 val (k, v) = str.trim().split("=", limit = 2)
                     .map { decodeURIComponent(it) }
@@ -18,5 +19,5 @@ object Cookies {
             }
             .toMap()
 
-    operator fun get(key: String) = this.all()[key]
+    operator fun get(key: String) = all()[key]
 }
