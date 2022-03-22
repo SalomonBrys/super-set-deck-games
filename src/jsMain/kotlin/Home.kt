@@ -43,7 +43,7 @@ fun NavBuilder.Home(games: List<Game>?, langMenu: LangMenu) {
             }
             MdcDrawerHeaderSubtitle {
                 Text("196 ${LocalLang.current.Cards}")
-                games?.size?.let { Text(", $it ${LocalLang.current.Cards}") }
+                games?.size?.let { Text(", $it ${LocalLang.current.Games}") }
                 Text("!")
             }
         }

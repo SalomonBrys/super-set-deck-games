@@ -149,11 +149,10 @@ private fun PackerDialog(gamesList: List<Game>, trigger: Flow<Pack?>, addPack: (
                     }
 
                     key(count) {
-                        val games by rememberUpdatedState(gamesList)
+                        val games by rememberUpdatedState(gamesList.sortedBy { it.name })
                         MdcSelect(
                             selected = pack?.game?.id ?: "",
                             onSelected = { gameId ->
-                                println(gameId)
                                 pack = games.first { it.id == gameId }.toPack()
                             },
                             label = LocalLang.current.Games,
