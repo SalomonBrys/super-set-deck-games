@@ -18,5 +18,5 @@ object Cookies {
             }
             .toMap()
 
-    operator fun get(key: String) = all()[key]
+    operator fun get(key: String) = this.all()[key]
 }
