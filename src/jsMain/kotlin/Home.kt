@@ -39,7 +39,7 @@ fun NavBuilder.Home(games: List<Game>?, langMenu: LangMenu) {
     MdcDrawer(trigger.flow) {
         MdcDrawerHeader {
             MdcDrawerHeaderTitle {
-                Text("Super-Deck‽")
+                Text("Super-Set Deck‽")
             }
             MdcDrawerHeaderSubtitle {
                 Text("196 ${LocalLang.current.Cards}")
@@ -69,7 +69,6 @@ fun NavBuilder.Home(games: List<Game>?, langMenu: LangMenu) {
     MdcTopAppBarMain {
         FlexColumn(JustifyContent.Center, AlignItems.Center) {
             val router by rememberUpdatedState(Router.current)
-            val lang by rememberUpdatedState(LocalLang.current)
 
             route("/packer") {
                 SideEffect { page = Page.Packer }

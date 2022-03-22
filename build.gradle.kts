@@ -78,3 +78,9 @@ kotlin {
         }
     }
 }
+
+task<Sync>("publish") {
+    dependsOn("jsBrowserDistribution")
+    from("$buildDir/distributions")
+    into("$rootDir/docs")
+}
