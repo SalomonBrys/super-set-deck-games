@@ -63,7 +63,11 @@ private fun GameRules(game: Game, section: String?) {
     val langId = LocalLang.current.id.takeIf { it in game.names } ?: "en".takeIf { it in game.names } ?: game.names.values.first()
     LaunchedEffect(langId) {
         html = null
-        html = window.fetch("games/${game.id}/${langId}.inc.html").await().text().await()
+        try {
+            html = window.fetch("games/${game.id}/${langId}.inc.html").await().text().await()
+        } catch (_: Throwable) {
+            html = "<h1>Error :(</h1>"
+        }
     }
 
     H1({

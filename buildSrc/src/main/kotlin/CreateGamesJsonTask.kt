@@ -20,7 +20,7 @@ abstract class CreateGamesJsonTask : DefaultTask() {
     }
 
     @get:OutputFile
-    val output = project.buildDir.resolve("generatedResources/games/games.json")
+    val output = project.buildDir.resolve("games-json/games.json")
 
     private val yamlLoader = Load(
         LoadSettings.builder()

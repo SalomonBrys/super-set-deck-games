@@ -5,8 +5,9 @@ import data.Game
 import data.LocalLang
 import data.langs
 import kotlinx.browser.window
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.await
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
@@ -74,52 +75,66 @@ private fun WithLang(content: @Composable (LangMenu) -> Unit) {
 
 fun homePath() = Cookies["lastFilterHash"] ?: "/"
 
-fun main() {
+@Composable
+fun App() {
+    var games by remember { mutableStateOf<List<Game>?>(null) }
 
-    renderComposableInBody {
-        var games by remember { mutableStateOf<List<Game>?>(null) }
-
-        LaunchedEffect(null) {
-            try {
-                val response = window.fetch("games/games.json").await()
-                if (!response.ok) error("${response.status} ${response.statusText}")
-                games = Json.decodeFromString(response.text().await())
-            } catch (e: Throwable) {
-                window.alert("Error loading games: ${e.message ?: e.toString()}")
-            }
+    LaunchedEffect(null) {
+        try {
+            val response = window.fetch("games/games.json").await()
+            if (!response.ok) error("${response.status} ${response.statusText}")
+            games = Json.decodeFromString(response.text().await())
+        } catch (e: Throwable) {
+            window.alert("Error loading games: ${e.message ?: e.toString()}")
         }
+    }
 
-        WithLang { langMenu ->
-            HashRouter(initRoute = "/") {
-                val router by rememberUpdatedState(Router.current)
+    WithLang { langMenu ->
+        HashRouter(initRoute = "/") {
+            val router by rememberUpdatedState(Router.current)
 
-                route("/game") {
-                    string { gameId ->
-                        if (games == null) {
-                            Game(null, langMenu)
+            route("/game") {
+                string { gameId ->
+                    if (games == null) {
+                        Game(null, langMenu)
+                    } else {
+                        val game = games!!.firstOrNull { it.id == gameId }
+                        if (game != null) {
+                            Game(game, langMenu)
                         } else {
-                            val game = games!!.firstOrNull { it.id == gameId }
-                            if (game != null) {
-                                Game(game, langMenu)
-                            } else {
-                                SideEffect { router.navigate("/") }
-                            }
+                            SideEffect { router.navigate("/") }
                         }
                     }
-                    noMatch {
-                        SideEffect { router.navigate("/") }
-                    }
-                }
-                route("/games") {
-                    LaunchedEffect(window.location.hash) {
-                        Cookies.set("lastFilterHash", window.location.hash.removePrefix("#"), 14.days)
-                    }
-                    Home(games, langMenu)
                 }
                 noMatch {
-                    SideEffect { router.navigate("/games") }
+                    SideEffect { router.navigate("/") }
                 }
+            }
+            route("/games") {
+                LaunchedEffect(window.location.hash) {
+                    Cookies.set("lastFilterHash", window.location.hash.removePrefix("#"), 14.days)
+                }
+                Home(games, langMenu)
+            }
+            noMatch {
+                SideEffect { router.navigate("/games") }
             }
         }
     }
+}
+
+fun main() {
+    window.addEventListener("load", {
+        MainScope().launch {
+            try {
+                val result = window.navigator.serviceWorker.register("ServiceWorker.js").await()
+                console.log("Service worker registered")
+            } catch (ex: Throwable) {
+                console.error("Could not register service worker: ${ex.message}")
+            }
+        }
+    })
+
+
+    renderComposableInBody { App() }
 }

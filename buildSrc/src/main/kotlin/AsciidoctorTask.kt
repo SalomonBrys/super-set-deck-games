@@ -1,7 +1,4 @@
-import org.asciidoctor.Asciidoctor
-import org.asciidoctor.Attributes
-import org.asciidoctor.Options
-import org.asciidoctor.OptionsBuilder
+import org.asciidoctor.*
 import org.gradle.api.DefaultTask
 import org.gradle.api.file.FileType
 import org.gradle.api.tasks.*
@@ -23,7 +20,7 @@ abstract class AsciidoctorTask : DefaultTask() {
     }
 
     @get:OutputDirectory
-    val outputDir = project.buildDir.resolve("generatedResources/games")
+    val outputDir = project.buildDir.resolve("asciidoctor")
 
     @TaskAction
     fun execute(inputChanges: InputChanges) {
@@ -36,6 +33,7 @@ abstract class AsciidoctorTask : DefaultTask() {
                     adoc.convertFile(
                         it.file,
                         Options.builder()
+                            .safe(SafeMode.UNSAFE)
                             .toFile(output)
                             .headerFooter(false)
                             .attributes(Attributes.builder().attribute("icons", "font").build())
