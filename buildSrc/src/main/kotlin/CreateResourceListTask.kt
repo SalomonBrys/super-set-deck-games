@@ -35,6 +35,7 @@ abstract class CreateResourceListTask : DefaultTask() {
             }
             .toSet()
             .minus(File("index.html"))
+            .minus(File("CNAME"))
             .plus(File("${project.name}.js"))
             .plus(File("${project.name}.js.map"))
             .sorted()
