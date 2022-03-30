@@ -2,7 +2,6 @@ import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.await
 import kotlinx.coroutines.promise
 import org.w3c.fetch.Response
-import org.w3c.workers.Cache
 import org.w3c.workers.ExtendableEvent
 import org.w3c.workers.FetchEvent
 import org.w3c.workers.ServiceWorkerGlobalScope
@@ -10,14 +9,17 @@ import org.w3c.workers.ServiceWorkerGlobalScope
 
 external val self: ServiceWorkerGlobalScope
 
-const val swVersion = "12"
+const val swVersion = "15"
 
-lateinit var cache: Cache
+var installed: Boolean = false
 
-suspend fun openCache() {
-    if (::cache.isInitialized) return
+suspend fun openCache() = self.caches.open("cache-$swVersion").await()
 
-    cache = self.caches.open("cache-$swVersion").await()
+suspend fun installCache() {
+    if (installed) return
+    installed = true
+
+    val cache = openCache()
 
     val resources = self.fetch("resources.txt").await().text().await().lines()
     val rVersion = resources.first()
@@ -50,7 +52,7 @@ fun main() {
     self.oninstall = {
         console.log("Service Worker $swVersion installing...")
         (it as ExtendableEvent).waitUntil(MainScope().promise {
-            openCache()
+            installCache()
             console.log("Service Worker $swVersion installed!")
         })
     }
@@ -58,7 +60,7 @@ fun main() {
     self.onactivate = {
         console.log("Service Worker $swVersion activating...")
         (it as ExtendableEvent).waitUntil(MainScope().promise {
-            openCache()
+            installCache()
             console.log("Service Worker $swVersion active!")
         })
     }
@@ -66,7 +68,9 @@ fun main() {
     self.addEventListener("fetch", {
         it as FetchEvent
 //        console.log("$version: ${it.request.url}")
+
         it.respondWith(MainScope().promise {
+            val cache = openCache()
             try {
                 val response = self.fetch(it.request).await()
                 cache.put(it.request, response.clone()).await()
