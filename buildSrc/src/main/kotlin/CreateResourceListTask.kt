@@ -5,6 +5,9 @@ import org.gradle.api.tasks.InputFiles
 import org.gradle.api.tasks.OutputFile
 import org.gradle.api.tasks.TaskAction
 import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 abstract class CreateResourceListTask : DefaultTask() {
@@ -35,7 +38,10 @@ abstract class CreateResourceListTask : DefaultTask() {
             .plus(File("${project.name}.js"))
             .plus(File("${project.name}.js.map"))
             .sorted()
-        output.writeText(files.joinToString("\n"))
+        output.writer().buffered().use { writer ->
+            writer.appendLine(SimpleDateFormat("YYYY-MM-dd_HH:mm:ss").format(Date()))
+            files.forEach { writer.appendLine(it.path) }
+        }
     }
 
 }

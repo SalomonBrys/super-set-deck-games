@@ -10,32 +10,56 @@ import org.w3c.workers.ServiceWorkerGlobalScope
 
 external val self: ServiceWorkerGlobalScope
 
-const val version = "8"
+const val swVersion = "12"
+
+lateinit var cache: Cache
+
+suspend fun openCache() {
+    if (::cache.isInitialized) return
+
+    cache = self.caches.open("cache-$swVersion").await()
+
+    val resources = self.fetch("resources.txt").await().text().await().lines()
+    val rVersion = resources.first()
+
+    val cVersion = try {
+        (cache.match("cache-resource-date").await() as? Response)?.text()?.await()
+    } catch (_: Throwable) {
+        null
+    }
+
+    if (cVersion != rVersion) {
+        console.log("Updating cache to $rVersion (was $cVersion)")
+
+        resources.drop(1).forEach {
+            try {
+                cache.put(it, self.fetch(it).await())
+            } catch (ex: Throwable) {
+                console.log("Could not install $it in cache: ${ex.message}")
+            }
+        }
+
+        cache.put("cache-resource-date", Response(rVersion)).await()
+    } else {
+        console.log("Cache is up to date to $rVersion")
+    }
+}
 
 fun main() {
 
-    lateinit var cache: Cache
-
     self.oninstall = {
-        console.log("Service Worker $version installing...")
-        it as ExtendableEvent
-        it.waitUntil(MainScope().promise {
-            cache = self.caches.open("cache").await()
-            self.fetch("resources.txt").await().text().await().lines().forEach {
-                try {
-                    cache.put(it, self.fetch(it).await())
-                } catch (ex: Throwable) {
-                    println("Could not install $it in cache")
-                }
-            }
+        console.log("Service Worker $swVersion installing...")
+        (it as ExtendableEvent).waitUntil(MainScope().promise {
+            openCache()
+            console.log("Service Worker $swVersion installed!")
         })
     }
 
     self.onactivate = {
-        console.log("Service Worker $version active!")
-        it as ExtendableEvent
-        it.waitUntil(MainScope().promise {
-            cache = self.caches.open("cache").await()
+        console.log("Service Worker $swVersion activating...")
+        (it as ExtendableEvent).waitUntil(MainScope().promise {
+            openCache()
+            console.log("Service Worker $swVersion active!")
         })
     }
 

@@ -127,7 +127,7 @@ fun main() {
     window.addEventListener("load", {
         MainScope().launch {
             try {
-                val result = window.navigator.serviceWorker.register("ServiceWorker.js").await()
+                window.navigator.serviceWorker.register("ServiceWorker.js").await()
                 console.log("Service worker registered")
             } catch (ex: Throwable) {
                 console.error("Could not register service worker: ${ex.message}")
