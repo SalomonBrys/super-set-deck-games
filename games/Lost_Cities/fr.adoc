@@ -9,15 +9,15 @@ Un jeu de Reiner Knizia.
 .Matériel
 ****
 * Jeu de base :
-** 5 cartes A (♠, ♥, ♣, ♦, ★).
+** 5 cartes A : ♠, ♥, ♣, ♦, ★.
 ** 60 cartes de jeu :
-*** 45 cartes Expéditions (numérotées de 2 à 10 à ♠, ♥, ♣, ♦ & ★).
+*** 45 cartes Expéditions numérotées : 2-10 à ♠, ♥, ♣, ♦ & ★.
 *** 15 cartes Pari (3 K à chaque couleur).
 * Jeu avancé :
 ** 1 carte A additionnelle (⎈).
 ** 12 cartes de jeu additionnelles :
-*** 9 cartes Expéditions (numérotées de 2 à 10 à ⎈).
-*** 3 cartes Pari (K à ⎈).
+*** 9 cartes Expéditions numérotées : 2-10 à ⎈.
+*** 3 cartes Pari (3 K à ⎈).
 ****
 
 *Le duel des expéditions*

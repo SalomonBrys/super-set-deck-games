@@ -7,7 +7,7 @@ Un jeu de Reinhard Staupe.
 
 .Matériel
 ****
-* 90 cartes de jeu (1-18 à ♠, ♥, ♣, ♦ & ★)
+* 90 cartes de jeu : 1-18 à ♠, ♥, ♣, ♦ & ★.
 ****
 
 

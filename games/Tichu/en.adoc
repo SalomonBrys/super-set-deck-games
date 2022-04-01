@@ -5,9 +5,9 @@
 
 A traditional Chinese game.
 
-.Matériel
+.Components
 ****
-* 52 number cards (1-13 in ♠, ♥, ♣ & ♦).
+* 52 numbered cards: 1-13 in ♠, ♥, ♣ & ♦.
 * 4 special cards:
 ** The *0★*.
 ** The *Owl*.

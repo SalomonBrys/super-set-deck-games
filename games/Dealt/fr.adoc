@@ -8,9 +8,9 @@ A game by  Katja Stremmel.
 
 .Components
 ****
-* 49 cartes numérotées (1-12 in ♠, ♥, ♣, ♦).
+* 49 cartes numérotées : 1-12 in ♠, ♥, ♣, ♦.
 * 2 Papillons, 2 Singes, 2 Loups.
-* 5 Réferences
+* 5 Références des combinaisons.
 ****
 
 Débarrassez-vous de vos cartes le plus vite possible en surenchérissant sur les combinaisons des autres joueurs.

@@ -8,9 +8,9 @@ Un jeu de Carl Chudyk & Chris Cieslik.
 
 .Matériel
 ****
-* 49 cartes de jeu (1-7 à ★, ♠, ♥, ♣, ♦, ✿, ⎈).
+* 49 cartes de jeu : 1-7 à ★, ♠, ♥, ♣, ♦, ✿, ⎈.
 * 1 première carte de toile (le 0★).
-* Pour 5 ou 6 joueurs : les autres 0 (à ♠, ♥, ♣, ♦, ✿, ⎈)
+* Pour 5 ou 6 joueurs : les autres 0 à ♠, ♥, ♣, ♦, ✿, ⎈.
 * 6 référence des règles.
 * 6 référence des pouvoirs (jeu avancé).
 ****

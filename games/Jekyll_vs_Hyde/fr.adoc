@@ -8,10 +8,10 @@ Un jeu de Geon-il.
 
 .Matériel
 ****
-* 21 cartes Lutte (1-7 à ♠, ♥, ♣).
-* 4 Star cards (2-5 à ★).
+* 21 cartes Lutte : 1-7 à ♠, ♥, ♣.
+* 4 Star cards : 2-5 à ★.
 * 1 carte Ordre des couleurs.
-* 3 A cards (♠, ♥ & ♣).
+* 3 A cards : ♠, ♥ & ♣.
 * 2 cartes références des effets.
 ****
 

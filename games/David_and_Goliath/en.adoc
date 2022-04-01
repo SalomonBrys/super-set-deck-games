@@ -7,7 +7,7 @@ A game by Reinhard Staupe.
 
 .Components
 ****
-* 90 Playing cards (1-18 in ♠, ♥, ♣, ♦ & ★)
+* 90 Playing cards: 1-18 in ♠, ♥, ♣, ♦ & ★.
 ****
 
 

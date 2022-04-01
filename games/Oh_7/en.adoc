@@ -8,11 +8,11 @@ A game by Salomon BRYS.
 .Components
 ****
 * Base game :
-** 5 A cards (♠, ♥, ♣, ♦, ✿).
+** 5 A cards: ♠, ♥, ♣, ♦, ✿.
 ** 1 Suit Priority reference card.
-** 40 game cards (0-7 in ♠, ♥, ♣, ♦, ✿).
+** 40 game cards: 0-7 in ♠, ♥, ♣, ♦, ✿.
 * Advanced game :
-** 4 ★ cards (1-4).
+** 4 ★ cards: 1-4.
 ** 2 Butterfly cards.
 ** 1 Monkey King card.
 ****

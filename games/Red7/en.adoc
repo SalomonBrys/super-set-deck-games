@@ -7,9 +7,9 @@ A game by Carl Chudyk & Chris Cieslik.
 
 .Components
 ****
-* 49 game cards (1-7 in ★, ♠, ♥, ♣, ♦, ✿, ⎈).
+* 49 game cards: 1-7 in ★, ♠, ♥, ♣, ♦, ✿, ⎈.
 * 1 first canvas card (the ★A).
-* For 5 or 6 players : 7 0s (in ♠, ♥, ♣, ♦, ✿, ⎈)
+* For 5 or 6 players : 7 0s in ♠, ♥, ♣, ♦, ✿, ⎈.
 * 5 rule references.
 * 5 power references (advanced game).
 ****

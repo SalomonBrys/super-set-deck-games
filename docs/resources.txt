@@ -1,4 +1,4 @@
-2022-04-01_15:27:26
+2022-04-01_18:33:01
 App.js
 App.js.map
 ServiceWorker.js
@@ -161,6 +161,9 @@ games/Fox_in_Forest/fr.inc.html
 games/Good_Little_Tricks/R-P0-RP.png
 games/Good_Little_Tricks/en.inc.html
 games/Good_Little_Tricks/fr.inc.html
+games/Haggis/R-P0-RP.png
+games/Haggis/en.inc.html
+games/Haggis/fr.inc.html
 games/Hanamikoji/en.inc.html
 games/Hanamikoji/fr.inc.html
 games/Jekyll_vs_Hyde/R-G0-RL.png

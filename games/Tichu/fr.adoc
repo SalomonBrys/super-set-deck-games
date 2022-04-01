@@ -8,7 +8,7 @@ Un jeu traditionnel Chinois.
 
 .Matériel
 ****
-* 52 cartes numérotées (1-13 à ♠, ♥, ♣ & ♦).
+* 52 cartes numérotées : 1-13 à ♠, ♥, ♣ & ♦.
 * 4 cartes spéciales :
 ** Le *0★*.
 ** La *Chouette*.

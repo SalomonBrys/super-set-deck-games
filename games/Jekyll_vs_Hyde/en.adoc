@@ -7,9 +7,9 @@ A game by Geon-il.
 
 .Components
 ****
-* 21 Evil cards (1-7 in ♠, ♥ & ♣).
-* 4 Star cards (2-5 in ★).
-* 3 A cards (♠, ♥ & ♣).
+* 21 Evil cards: 1-7 in ♠, ♥ & ♣.
+* 4 Star cards: 2-5 in ★.
+* 3 A cards: ♠, ♥ & ♣.
 * 1 Suit order card.
 * 2 effect reference cards.
 ****

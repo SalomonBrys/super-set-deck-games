@@ -9,11 +9,11 @@ Un jeu de Salomon BRYS.
 .Matériel
 ****
 * Jeu de base :
-** 5 cartes A (♠, ♥, ♣, ♦, ✿).
+** 5 cartes A : ♠, ♥, ♣, ♦, ✿.
 ** 1 carte référence Priorité des Couleurs.
-** 40 cartes de jeu (0-7 à ♠, ♥, ♣, ♦, ✿).
+** 40 cartes de jeu : 0-7 à ♠, ♥, ♣, ♦, ✿.
 * Jeu avancé :
-** 4 cartes ★ (1-4).
+** 4 cartes ★ : 1-4.
 ** 2 cartes Papillon.
 ** 1 carte Roi Singe.
 ****

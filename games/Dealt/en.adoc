@@ -7,9 +7,9 @@ A game by  Katja Stremmel.
 
 .Components
 ****
-* 49 numbered cards (1-12 in ♠, ♥, ♣, ♦).
+* 49 numbered cards: 1-12 in ♠, ♥, ♣, ♦.
 * 2 Butterflies, 2 Monkeys, 2 Wolves.
-* 5 Combinations
+* 5 Combinations reference cards.
 ****
 
 All of you are trying to play your cards as quickly as possible by outbidding the other player’s combinations.

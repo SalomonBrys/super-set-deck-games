@@ -7,7 +7,7 @@ A game by Joshua Buergel.
 
 .Components
 ****
-* 33 game cards (1-11 in ♠, ♥ & ♣).
+* 33 game cards: 1-11 in ♠, ♥ & ♣.
 * 2 effect reference cards.
 * 2 scoring reference cards.
 ****

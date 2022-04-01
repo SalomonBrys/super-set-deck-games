@@ -7,10 +7,10 @@ A game by Paul Abrahams, Luke Badger, & Andy Richdale.
 
 .Components
 ****
-* 36 numbered cards (2-10 in ♠, ♥, ♣ & ♦).
-* 4 animal companions (A in ♠, ♥, ♣ & ♦)
+* 36 numbered cards: 2-10 in ♠, ♥, ♣ & ♦.
+* 4 animal companions: A in ♠, ♥, ♣ & ♦.
 * 2 butterflies
-* 12 enemy cards (J, Q & K in ♠, ♥, ♣ & ♦)
+* 12 enemy cards: J, Q & K in ♠, ♥, ♣ & ♦.
 * 4 power references.
 * 1 attack / health reference.
 ****

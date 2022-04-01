@@ -8,14 +8,14 @@ A game by Reiner Knizia.
 .Components
 ****
 * Base game:
-** 5 A cards (♠, ♥, ♣, ♦, ★).
+** 5 A cards: ♠, ♥, ♣, ♦, ★.
 ** 60 Playing cards:
-*** 45 Expedition cards (values 2-10 in ♠, ♥, ♣, ♦ & ★).
+*** 45 numbered Expedition cards: 2-10 in ♠, ♥, ♣, ♦ & ★.
 *** 15 Wager cards (3 Ks of each color).
 * Advanced game:
 ** 1 additional A card (✿).
 ** 12 additional Playing cards:
-*** 9 Expedition cards (values 2-10 in ✿).
+*** 9 Expedition cards: 2-10 in ✿.
 *** 3 Wager cards (Ks of ✿).
 ****
 

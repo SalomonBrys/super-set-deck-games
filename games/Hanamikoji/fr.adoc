@@ -6,7 +6,7 @@
 
 Un jeu de Kota Nakayama.
 
-.Components
+.Matériel
 ****
 * 7 carte Geisha numérotées : 2⎈, 2✿, 2♦, 3♣, 3♥, 4♠ & 5★
 * 21 cartes Objets :
