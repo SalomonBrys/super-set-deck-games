@@ -1,4 +1,4 @@
-2022-04-01_18:33:01
+2022-04-02_22:05:50
 App.js
 App.js.map
 ServiceWorker.js
@@ -166,6 +166,9 @@ games/Haggis/en.inc.html
 games/Haggis/fr.inc.html
 games/Hanamikoji/en.inc.html
 games/Hanamikoji/fr.inc.html
+games/High_Society/R-G0-RP.png
+games/High_Society/en.inc.html
+games/High_Society/fr.inc.html
 games/Jekyll_vs_Hyde/R-G0-RL.png
 games/Jekyll_vs_Hyde/R-P0-RP.png
 games/Jekyll_vs_Hyde/R-P1-RP.png
