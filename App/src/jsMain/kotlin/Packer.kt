@@ -421,17 +421,21 @@ private fun PackerRefCards(packs: List<Pack>) {
                 .sortedBy { (name, _) -> name }
                 .forEach { (name, refs) ->
                     val (gameRefs, playerRefs) = refs
-                    P {
+                    P({
+                        style {
+                            margin(.6.em, 1.2.em)
+                        }
+                    }) {
                         B { Text("$name: ") }
                         if (gameRefs > 0) {
-                            Text("$gameRefs*")
+                            B { Text("$gameRefs×") }
                             CardSpan { Text(LocalLang.current.game) }
                         }
                         if (gameRefs > 0 && playerRefs > 0) {
                             Text(", ")
                         }
                         if (playerRefs > 0) {
-                            Text("$playerRefs*")
+                            B { Text("$playerRefs×") }
                             CardSpan { Text(LocalLang.current.player) }
                         }
                     }
