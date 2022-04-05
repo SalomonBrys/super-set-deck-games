@@ -2,6 +2,7 @@ import androidx.compose.runtime.*
 import app.softwork.routingcompose.NavBuilder
 import app.softwork.routingcompose.Router
 import data.Game
+import data.Lang
 import data.LocalLang
 import kotlinx.browser.window
 import kotlinx.coroutines.await
@@ -10,6 +11,7 @@ import material_custom.MdcTopAppBarMain
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Img
+import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
 import org.w3c.dom.*
 import utils.*
@@ -108,9 +110,13 @@ private fun GameRules(game: Game, section: String?) {
                 id = encoded,
                 onInteract = { router.navigate("/games?gameType=$encoded") },
             ) {
-                Text(it)
+                Text(LocalLang.current.gameTypes[it] ?: it)
             }
         }
+    }
+
+    P {
+        Text("${game.playerCount.toShortStrings().joinToString()} ${LocalLang.current.players}")
     }
 
     MdcCard(attrs = {
@@ -266,7 +272,11 @@ fun NavBuilder.Game(game: Game?, langMenu: LangMenu) {
     }
 
     MdcTopAppBarMain(withTabs = game?.hasReference() == true) {
-        FlexColumn(JustifyContent.Center, AlignItems.Center) {
+        FlexColumn(JustifyContent.Center, AlignItems.Center, {
+            style {
+                marginBottom(2.cssRem)
+            }
+        }) {
             if (game == null) {
                 Loader()
             } else {

@@ -29,11 +29,6 @@ private fun List<Game>.playerCounts(gameType: String?): List<Int> =
         .flatMap { it.playerCount }
         .distinct().sorted()
 
-private fun List<Game>.gameTypes(playerCount: Int): List<String> =
-    filter { if (playerCount == 0) true else playerCount in it.playerCount }
-        .flatMap { it.types }
-        .distinct().sorted()
-
 @Composable
 private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: String?, favorites: Boolean) {
     val router = Router.current
@@ -108,7 +103,11 @@ private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: Stri
                 MdcList {
                     MdcDialogListItem("s:all") { Text(LocalLang.current.allTypes) }
                     MdcListDivider()
-                    val gameTypes = games.gameTypes(playerCount)
+                    val gameTypes = games
+                        .filter { if (playerCount == 0) true else playerCount in it.playerCount }
+                        .flatMap { it.types }
+                        .distinct()
+                        .sortedBy { LocalLang.current.gameTypes[it] ?: it }
                     gameTypes.forEach {
                         MdcDialogListItem("s:$it") { Text(LocalLang.current.gameTypes[it] ?: it) }
                     }
@@ -146,6 +145,7 @@ fun GamesList(games: List<Game>, playerCount: Int, gameType: String?, favorites:
         style {
             width(100.percent)
             maxWidth(26.cssRem)
+            marginBottom(2.cssRem)
         }
     }) {
         val router = Router.current

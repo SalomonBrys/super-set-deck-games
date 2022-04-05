@@ -6,6 +6,7 @@ data class Lang(
     val id: String,
     val Games: String,
     val Cards: String,
+    val game: String,
     val player: String,
     val players: String,
     val allTypes: String,
@@ -15,6 +16,8 @@ data class Lang(
     val Variants: String,
     val Packer: String,
     val Favorites_only: String,
+    val GameCards: String,
+    val ReferenceCards: String,
 
     val gameTypes: Map<String, String> = emptyMap(),
     val cardNames: Map<String, String> = emptyMap()
@@ -27,6 +30,7 @@ val langs = mapOf(
         id = "en",
         Games = "Games",
         Cards = "Cards",
+        game = "game",
         player = "player",
         players = "players",
         allTypes = "all types",
@@ -36,12 +40,15 @@ val langs = mapOf(
         Variants = "Variants",
         Packer = "Packer",
         Favorites_only = "Favorites only",
+        GameCards = "Game cards",
+        ReferenceCards = "Reference cards",
     ),
 
     "fr" to Lang(
         id = "fr",
         Games = "Jeux",
         Cards = "Cartes",
+        game = "jeu",
         player = "joueur·euse",
         players = "joueur·euse·s",
         allTypes = "tous types",
@@ -51,9 +58,13 @@ val langs = mapOf(
         Variants = "Variantes",
         Packer = "Packer",
         Favorites_only = "Favoris seulement",
+        GameCards = "cartes de Jeu",
+        ReferenceCards = "cartes de Référence",
 
         gameTypes = mapOf(
+            "Auction" to "Enchères",
             "Cooperative" to "Coopératif",
+            "Drafting" to "Draft",
             "Hand Management" to "Gestion de Main",
             "Ladder Climbing" to "Montée en Puissance",
             "Player Elimination" to "Élimination de joueur·euse·s",
@@ -61,6 +72,7 @@ val langs = mapOf(
             "Push Your Luck" to "Pousse ta Chance",
             "Score and Reset" to "Score et Recommence",
             "Set Collection" to "Collection d'ensembles",
+            "Single Loser" to "Perdant Unique",
             "Team Based" to "En Équipe",
             "Trick Taking" to "Prise de pli"
         ),

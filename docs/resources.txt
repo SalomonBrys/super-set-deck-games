@@ -1,4 +1,4 @@
-2022-04-02_22:05:50
+2022-04-05_19:26:19
 App.js
 App.js.map
 ServiceWorker.js
@@ -164,6 +164,7 @@ games/Good_Little_Tricks/fr.inc.html
 games/Haggis/R-P0-RP.png
 games/Haggis/en.inc.html
 games/Haggis/fr.inc.html
+games/Hanamikoji/R-P0-RL.png
 games/Hanamikoji/en.inc.html
 games/Hanamikoji/fr.inc.html
 games/High_Society/R-G0-RP.png

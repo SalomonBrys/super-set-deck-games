@@ -257,12 +257,26 @@ private fun PackerGamesList(packs: List<Pack>, trigger: FlowCollector<Pack>, onD
 }
 
 @Composable
-private fun PackerCards(packs: List<Pack>) {
+private fun CardSpan(content: @Composable () -> Unit) {
+    Span({
+        style {
+            border(1.px, LineStyle.Solid, Color.black)
+            borderRadius(3.px)
+            padding(0.4.em, 0.2.em)
+        }
+    }) {
+        content()
+    }
+}
+
+@Composable
+private fun PackerGameCards(packs: List<Pack>) {
     MdcCard(attrs = {
         style {
             width(100.percent)
             maxWidth(50.cssRem)
             marginTop(1.em)
+            marginBottom(2.cssRem)
         }
     }) {
         val allSuits = HashMap<String, MutableMap<String, Int>>()
@@ -273,6 +287,15 @@ private fun PackerCards(packs: List<Pack>) {
                     allCards[card] = maxOf(allCards[card] ?: 0, count)
                 }
             }
+        }
+
+        H3({
+            style {
+                textAlign("center")
+            }
+        }) {
+            val allCount = allSuits.values.sumOf { it.values.sum() }
+            Text("$allCount ${LocalLang.current.GameCards}")
         }
 
         allSuits
@@ -315,7 +338,11 @@ private fun PackerCards(packs: List<Pack>) {
                         }
                         )
 
-                P {
+                P({
+                    style {
+                        margin(.6.em, 0.em)
+                    }
+                }) {
                     Span({
                         style {
                             fontWeight("bold")
@@ -354,19 +381,62 @@ private fun PackerCards(packs: List<Pack>) {
                             if (coma) Text(", ")
                             coma = true
                             if (count > 1) B { Text("${count}×") }
-                            Span({
-                                style {
-                                    border(1.px, LineStyle.Solid, Color.black)
-                                    borderRadius(3.px)
-                                    padding(0.4.em, 0.2.em)
-                                }
-                            }) {
-                                Text(card)
-                            }
+                            CardSpan { Text(card) }
                         }
                     }
                 }
             }
+    }
+}
+
+@Composable
+private fun PackerRefCards(packs: List<Pack>) {
+    val allRefs = HashMap<String, Pair<Int, Int>>()
+    packs.forEach {
+        val pair = it.game.gameReferences.size to it.game.playerReferences.size * it.players.maxOf { it }
+        if (pair.first > 0 || pair.second > 0) {
+            allRefs[it.game.name] = pair
+        }
+    }
+
+    if (allRefs.isNotEmpty()) {
+        MdcCard(attrs = {
+            style {
+                width(100.percent)
+                maxWidth(50.cssRem)
+                marginTop(1.em)
+                marginBottom(2.cssRem)
+            }
+        }) {
+            H3({
+                style {
+                    textAlign("center")
+                }
+            }) {
+                val allCount = allRefs.values.sumOf { it.first + it.second }
+                Text("$allCount ${LocalLang.current.ReferenceCards}")
+            }
+
+            allRefs.entries
+                .sortedBy { (name, _) -> name }
+                .forEach { (name, refs) ->
+                    val (gameRefs, playerRefs) = refs
+                    P {
+                        B { Text("$name: ") }
+                        if (gameRefs > 0) {
+                            Text("$gameRefs*")
+                            CardSpan { Text(LocalLang.current.game) }
+                        }
+                        if (gameRefs > 0 && playerRefs > 0) {
+                            Text(", ")
+                        }
+                        if (playerRefs > 0) {
+                            Text("$playerRefs*")
+                            CardSpan { Text(LocalLang.current.player) }
+                        }
+                    }
+                }
+        }
     }
 }
 
@@ -421,7 +491,8 @@ fun Packer(games: List<Game>) {
         }
 
         if (packs.isNotEmpty()) {
-            PackerCards(packs)
+            PackerGameCards(packs)
+            PackerRefCards(packs)
         }
     }
 }

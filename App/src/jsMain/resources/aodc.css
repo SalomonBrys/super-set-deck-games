@@ -2101,7 +2101,7 @@ html.adoc, .adoc body {
     max-width: none;
 }
 
-.adoc h1, .adoc h2, .adoc h3 {
+.adoc h1, .adoc h2 {
     background-color: var(--mdc-theme-primary);
     color: white !important;
     font-family: "Picon-Extended", sans-serif;
@@ -2109,7 +2109,13 @@ html.adoc, .adoc body {
     padding: 10px;
 }
 
-.adoc h4, .adoc h5, .adoc h6 {
+.adoc h3 {
+    font-family: "Picon-Extended", sans-serif;
+    font-weight: 600;
+}
+
+.adoc h3, .adoc h4, .adoc h5, .adoc h6 {
+    font-family: "Picon-Extended", sans-serif;
     color: var(--mdc-theme-primary);
 }
 
