@@ -1,4 +1,4 @@
-2022-04-05_19:26:19
+2022-04-05_19:49:15
 App.js
 App.js.map
 ServiceWorker.js
@@ -171,8 +171,8 @@ games/High_Society/R-G0-RP.png
 games/High_Society/en.inc.html
 games/High_Society/fr.inc.html
 games/Jekyll_vs_Hyde/R-G0-RL.png
-games/Jekyll_vs_Hyde/R-P0-RP.png
-games/Jekyll_vs_Hyde/R-P1-RP.png
+games/Jekyll_vs_Hyde/R-G1-RP.png
+games/Jekyll_vs_Hyde/R-G2-RP.png
 games/Jekyll_vs_Hyde/en.inc.html
 games/Jekyll_vs_Hyde/fr.inc.html
 games/Lost_Cities/en.inc.html
