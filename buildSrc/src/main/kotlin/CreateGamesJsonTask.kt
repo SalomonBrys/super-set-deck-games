@@ -59,8 +59,7 @@ abstract class CreateGamesJsonTask : DefaultTask() {
             .filter { it.name == "game.yaml" }
             .map { yamlFile ->
                 try {
-                    val yaml = yamlLoader.loadAllFromReader(yamlFile.bufferedReader())
-                    val map = yaml.first() as Map<String, Any>
+                    val map = yamlLoader.loadAllFromReader(yamlFile.bufferedReader()).first() as Map<String, Any>
 
                     val gamePlayerCount = when (val players = map["players"]) {
                         is String -> players.split(",").map { it.trim().toInt() }
@@ -90,7 +89,10 @@ abstract class CreateGamesJsonTask : DefaultTask() {
                                 )
                             }.toMap()
                         },
-                        playerReferences = yamlFile.parentFile.getRefCards("P"),
+                        playerReferences = Game.PlayerReferences(
+                            max = (map["max-player-refs"] as? Number)?.toInt() ?: gamePlayerCount.maxOf { it },
+                            refs = yamlFile.parentFile.getRefCards("P")
+                        ),
                         gameReferences = yamlFile.parentFile.getRefCards("G")
                     )
                 } catch (ex: Exception) {

@@ -15,6 +15,7 @@ A game by Stefan Dorra.
 ** 5 trick value cards: 1-4 & -‽ in ★
 * 1 bonus card: ★×2
 * 12 character cards: 2 butterflies, 2 Owls, 2 Wolves, 2 Monkeys, 2 Toads & 2 Turtles.
+* 2 Nyet! lines references
 ****
 
 Players are split into 2 teams that each try to score points by taking tricks.

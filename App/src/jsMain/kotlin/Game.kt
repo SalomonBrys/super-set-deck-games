@@ -18,7 +18,7 @@ import utils.*
 import kotlin.time.Duration.Companion.days
 
 
-private fun Game.hasReference() = playerReferences.isNotEmpty() || gameReferences.isNotEmpty()
+private fun Game.hasReference() = playerReferences.refs.isNotEmpty() || gameReferences.isNotEmpty()
 
 @Composable
 private fun GameTopBar(game: Game?, langMenu: LangMenu, selectedTab: Int, selectTab: (Int) -> Unit) {
@@ -169,7 +169,7 @@ private fun GameRules(game: Game, section: String?) {
 
 @Composable
 fun GameReferences(game: Game) {
-    val references = listOf("G" to game.gameReferences, "P" to game.playerReferences)
+    val references = listOf("G" to game.gameReferences, "P" to game.playerReferences.refs)
         .flatMap { (prefix, list) ->
             list.flatMapIndexed { index, card ->
                 buildList {

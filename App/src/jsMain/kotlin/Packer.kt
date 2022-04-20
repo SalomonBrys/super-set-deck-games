@@ -393,7 +393,7 @@ private fun PackerGameCards(packs: List<Pack>) {
 private fun PackerRefCards(packs: List<Pack>) {
     val allRefs = HashMap<String, Pair<Int, Int>>()
     packs.forEach {
-        val pair = it.game.gameReferences.size to it.game.playerReferences.size * it.players.maxOf { it }
+        val pair = it.game.gameReferences.size to it.game.playerReferences.refs.size * minOf(it.players.maxOf { it }, it.game.playerReferences.max)
         if (pair.first > 0 || pair.second > 0) {
             allRefs[it.game.name] = pair
         }

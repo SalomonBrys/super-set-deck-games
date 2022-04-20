@@ -1,4 +1,4 @@
-2022-04-13_18:29:41
+2022-04-20_09:59:55
 App.js
 App.js.map
 ServiceWorker.js
@@ -177,6 +177,8 @@ games/Jekyll_vs_Hyde/en.inc.html
 games/Jekyll_vs_Hyde/fr.inc.html
 games/Lost_Cities/en.inc.html
 games/Lost_Cities/fr.inc.html
+games/Nyet/R-G0-RP.png
+games/Nyet/R-G1-RP.png
 games/Nyet/en.inc.html
 games/Nyet/fr.inc.html
 games/Oh_7/R-G0-RP.png
@@ -190,6 +192,9 @@ games/Regicide/R-G0-RP.png
 games/Regicide/R-P0-RL.png
 games/Regicide/en.inc.html
 games/Regicide/fr.inc.html
+games/Skull_King/R-P0-RP.png
+games/Skull_King/en.inc.html
+games/Skull_King/fr.inc.html
 games/Tichu/R-P0-RL.png
 games/Tichu/en.inc.html
 games/Tichu/fr.inc.html

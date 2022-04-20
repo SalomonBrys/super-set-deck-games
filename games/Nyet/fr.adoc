@@ -1,4 +1,4 @@
-= Nyet!
+= Niet!
 :toc: preamble
 :toclevels: 4
 :toc-title: Sommaire
@@ -16,6 +16,7 @@ Un jeu de Stefan Dorra.
 ** 5 cartes valeur de pli : 1-4 & -‽ à ★
 * 1 carte bonus : ×2★
 * 12 cartes personnage : 2 papillons, 2 Loups, 2 Chouettes, 2 Singes, 2 Crapauds & 2 Tortues.
+* 2 références des lignes Niet!
 ****
 
 Les joueurs sont répartis en 2 équipes qui tentent chacune de remporter des plis et ainsi de marquer des points.
