@@ -1,4 +1,4 @@
-2022-04-20_09:59:55
+2022-04-28_12:17:33
 App.js
 App.js.map
 ServiceWorker.js
@@ -154,10 +154,15 @@ games/David_and_Goliath/fr.inc.html
 games/Dealt/R-P0-RP.png
 games/Dealt/en.inc.html
 games/Dealt/fr.inc.html
+games/Fox_in_Forest/R-G0-RP.png
 games/Fox_in_Forest/R-P0-RP.png
-games/Fox_in_Forest/R-P1-RP.png
 games/Fox_in_Forest/en.inc.html
 games/Fox_in_Forest/fr.inc.html
+games/Fox_in_Forest_Duet/R-G0-RL.png
+games/Fox_in_Forest_Duet/R-G0-VL.png
+games/Fox_in_Forest_Duet/R-P0-RP.png
+games/Fox_in_Forest_Duet/en.inc.html
+games/Fox_in_Forest_Duet/fr.inc.html
 games/Good_Little_Tricks/R-P0-RP.png
 games/Good_Little_Tricks/en.inc.html
 games/Good_Little_Tricks/fr.inc.html

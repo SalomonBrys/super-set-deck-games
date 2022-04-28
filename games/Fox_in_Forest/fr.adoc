@@ -11,9 +11,9 @@ Un jeu de Joshua Buergel.
 * 33 cartes de jeu : 1-11 à ♠, ♥ & ♣.
 * 2 cartes références des effets.
 * 2 cartes références des scores.
-****
 
 WARNING: Les cartes références sont titrées du nom anglais du jeu : *"The Fox in the Forest"*.
+****
 
 Le Renard des Bois est un jeu de plis pour deux joueurs.
 Chacun d’entre eux joue des cartes de sa main afin de remporter des plis sur son adversaire au cours de plusieurs manches.

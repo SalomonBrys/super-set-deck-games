@@ -11,6 +11,8 @@ A game by  Katja Stremmel.
 * 49 cartes numérotées : 1-12 in ♠, ♥, ♣, ♦.
 * 2 Papillons, 2 Singes, 2 Loups.
 * 5 Références des combinaisons.
+
+WARNING: Les cartes références sont titrées du nom anglais du jeu : *"Dealt!"*.
 ****
 
 Débarrassez-vous de vos cartes le plus vite possible en surenchérissant sur les combinaisons des autres joueurs.
