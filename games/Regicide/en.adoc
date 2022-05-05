@@ -11,7 +11,7 @@ A game by Paul Abrahams, Luke Badger, & Andy Richdale.
 * 4 animal companions: A in ♠, ♥, ♣ & ♦.
 * 2 butterflies
 * 12 enemy cards: J, Q & K in ♠, ♥, ♣ & ♦.
-* 4 power references.
+* 2 power references.
 * 1 attack / health reference.
 ****
 

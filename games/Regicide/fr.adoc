@@ -12,7 +12,7 @@ Un jeu de Paul Abrahams, Luke Badger, & Andy Richdale.
 * 4 animaux de compagnie : A à ♠, ♥, ♣ & ♦.
 * 2 Papillons
 * 12 cartes ennemi : J, Q & K à ♠, ♥, ♣ & ♦.
-* 4 références des pouvoirs.
+* 2 références des pouvoirs.
 * 1 référence attaque / vie.
 ****
 

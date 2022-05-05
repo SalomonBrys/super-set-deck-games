@@ -13,3 +13,4 @@ cards:
       specials: Butterfly
     1,4-players:
       specials: Butterfly*2
+max-player-refs: 2

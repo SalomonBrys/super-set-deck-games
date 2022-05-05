@@ -1,4 +1,4 @@
-2022-04-28_12:17:33
+2022-05-05_10:52:25
 App.js
 App.js.map
 ServiceWorker.js
@@ -201,8 +201,12 @@ games/Skull_King/R-P0-RP.png
 games/Skull_King/en.inc.html
 games/Skull_King/fr.inc.html
 games/Tichu/R-P0-RL.png
+games/Tichu/R-P1-RP.png
 games/Tichu/en.inc.html
 games/Tichu/fr.inc.html
+games/Wizard_Extreme/R-G0-RL.png
+games/Wizard_Extreme/en.inc.html
+games/Wizard_Extreme/fr.inc.html
 games/Yokai_Septet/R-P0-RL.png
 games/Yokai_Septet/R-P0-VL.png
 games/Yokai_Septet/en.inc.html
