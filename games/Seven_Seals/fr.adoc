@@ -1,4 +1,4 @@
-= Wizard Extreme
+= Sept Sceaux
 :toc: preamble
 :toclevels: 4
 :toc-title: Sommaire
@@ -6,16 +6,21 @@
 
 A game by  Katja Stremmel.
 
-.Components
+.Matériel
 ****
 * 75 cartes numérotées : 1-15 à ♠, ♥, ♣, ♦, ★.
 * 27 sceaux :
 ** 17 sceaux de couleur :
 *** 12 pour les couleurs classiques : 3 K à ♠, ♥, ♣, ♦.
 *** 5 pour la couleur d'atout : 3 K, C & S à ★
++
+NOTE: Les cartes C & S ne diffèrent pas des cartes K.
+(Le Super-Set Deck ne fournis que 3 K).
 ** 10 sceaux magiques : 6 Loups & 4 Papillons
 * Le Mage Noir : A à ⎈
 * 1 référence des pénalités
+
+WARNING: La cartes référence est titrée du nom anglais du jeu : *"Seven Seals"*.
 ****
 
 Qui aura le plus grand pouvoir divinatoire ?

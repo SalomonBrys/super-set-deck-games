@@ -1,4 +1,4 @@
-= Wizard Extreme
+= Seven Seals
 :toc: preamble
 :toclevels: 4
 :icons: font
@@ -12,6 +12,9 @@ A game by  Katja Stremmel.
 ** 17 colour seals:
 *** 12 for regular colours: 3 Ks in ♠, ♥, ♣, ♦.
 *** 5 for the trump colour: 3 Ks, C, & S in ★
++
+NOTE: The C & S cards are no different from the K Cards.
+(The Super-Set Deck only provides 3 Ks).
 ** 10 magical seals: 6 Wolves & 4 Butterflies
 * The black magician: A in ⎈
 * 1 penalties reference
