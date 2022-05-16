@@ -63,6 +63,7 @@ val langs = mapOf(
 
         gameTypes = mapOf(
             "Auction" to "Enchères",
+            "Bluffing" to "Bluff",
             "Cooperative" to "Coopératif",
             "Drafting" to "Draft",
             "Hand Management" to "Gestion de Main",
