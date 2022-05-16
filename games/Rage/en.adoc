@@ -7,11 +7,12 @@
 ****
 * 96 Color cards: 0-15 in ♠, ♥, ♣, ♦, ✿, ★.
 * 16 Action cards:
-** 2 Monkeys
-** 3 Owls
-** 3 Toads
-** 4 Wolves
-** 4 Butterflies
+** 2 Monkeys.
+** 3 Owls.
+** 3 Toads.
+** 4 Wolves.
+** 4 Butterflies.
+* 4 animals powers reference cards.
 ****
 
 Each player will be dealt a number of cards for each round.

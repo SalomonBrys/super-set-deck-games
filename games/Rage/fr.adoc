@@ -8,11 +8,12 @@
 ****
 * 96 cartes de Couleur : 0-15 à ♠, ♥, ♣, ♦, ✿, ★.
 * 16 cartes d'Action :
-** 2 Rois Singe
-** 3 Chouettes
-** 3 Crapauds
-** 4 Loups
-** 4 Papillons
+** 2 Rois Singe.
+** 3 Chouettes.
+** 3 Crapauds.
+** 4 Loups.
+** 4 Papillons.
+* 4 cartes références des pouvoirs des animaux.
 ****
 
 

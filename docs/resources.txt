@@ -1,4 +1,4 @@
-2022-05-16_13:31:26
+2022-05-16_15:21:19
 App.js
 App.js.map
 ServiceWorker.js
@@ -182,6 +182,8 @@ games/Jekyll_vs_Hyde/en.inc.html
 games/Jekyll_vs_Hyde/fr.inc.html
 games/Lost_Cities/en.inc.html
 games/Lost_Cities/fr.inc.html
+games/Nessos/en.inc.html
+games/Nessos/fr.inc.html
 games/Nyet/R-G0-RP.png
 games/Nyet/R-G1-RP.png
 games/Nyet/en.inc.html
