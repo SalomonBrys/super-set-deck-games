@@ -10,7 +10,7 @@ A game by Foxtrot Games.
 * 30 Game cards: 1-10 in ♠, ♥ & ♣
 * 11 Path ♦ cards
 * 4 Blocker ★ cards (1-4)
-* 22 Animal cards (Butterflies, Wolves, Owls, Turtles, Toads)
+* 22 Animal cards (6 Butterflies, 6 Wolves, 4 Owls, 4 Toads, 2 Turtles)
 * 1 Monkey King card
 * 1 Path reference card (two-sided)
 * 2 Power & Movement reference cards

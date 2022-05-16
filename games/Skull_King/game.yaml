@@ -11,4 +11,4 @@ cards:
       clubs: 1-13
       diamonds: 1-13
       specials: Butterfly*5, Wolf*5, Owl*2, Toad, Monkey
-max-player-refs: 6
+max-player-refs: 4

@@ -1,4 +1,4 @@
-2022-05-05_13:06:29
+2022-05-16_13:31:26
 App.js
 App.js.map
 ServiceWorker.js
@@ -189,6 +189,9 @@ games/Nyet/fr.inc.html
 games/Oh_7/R-G0-RP.png
 games/Oh_7/en.inc.html
 games/Oh_7/fr.inc.html
+games/Rage/R-P0-RL.png
+games/Rage/en.inc.html
+games/Rage/fr.inc.html
 games/Red7/R-P0-RP.png
 games/Red7/R-P1-RP.png
 games/Red7/en.inc.html

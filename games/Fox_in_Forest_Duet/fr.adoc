@@ -11,7 +11,7 @@ Un jeu de Foxtrot Games.
 * 30 cartes à jouer: 1-10 à ♠, ♥ & ♣
 * 11 cartes Sentier ♦
 * 4 cartes Bloqué ★ (1-4)
-* 22 cartes Animal (Papillons, Loups, Chouettes, Tortues, Crapaud)
+* 22 cartes Animal (6 Papillons, 6 Loups, 4 Chouettes, 4 Crapaud, 2 Tortues)
 * 1 Roi Singe card
 * 1 carte référence Sentier (à 2 faces)
 * 2 cartes référence Pouvoirs et Mouvements
