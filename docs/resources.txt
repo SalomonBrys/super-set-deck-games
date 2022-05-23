@@ -1,4 +1,4 @@
-2022-05-19_15:49:20
+2022-05-23_11:53:41
 App.js
 App.js.map
 ServiceWorker.js
@@ -217,6 +217,9 @@ games/Tichu/R-P0-RL.png
 games/Tichu/R-P1-RP.png
 games/Tichu/en.inc.html
 games/Tichu/fr.inc.html
+games/Trump_Tricks_Game/R-P0-RP.png
+games/Trump_Tricks_Game/en.inc.html
+games/Trump_Tricks_Game/fr.inc.html
 games/Wizard/en.inc.html
 games/Wizard/fr.inc.html
 games/Yokai_Septet/R-P0-RL.png
