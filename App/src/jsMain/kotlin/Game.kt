@@ -1,67 +1,47 @@
 import androidx.compose.runtime.*
-import app.softwork.routingcompose.NavBuilder
+import app.softwork.routingcompose.RouteBuilder
 import app.softwork.routingcompose.Router
 import data.Game
-import data.Lang
 import data.LocalLang
+import data.name
+import dev.petuska.kmdc.card.Content
+import dev.petuska.kmdc.card.MDCCard
+import dev.petuska.kmdc.card.PrimaryAction
+import dev.petuska.kmdc.chips.grid.ActionChip
+import dev.petuska.kmdc.chips.grid.MDCChipsGrid
+import dev.petuska.kmdc.chips.onInteraction
+import dev.petuska.kmdc.icon.button.MDCIconButton
+import dev.petuska.kmdc.tab.Content
+import dev.petuska.kmdc.tab.Label
+import dev.petuska.kmdc.tab.Tab
+import dev.petuska.kmdc.tab.bar.MDCTabBar
+import dev.petuska.kmdc.tab.bar.onActivated
+import dev.petuska.kmdc.tab.indicator.Content
+import dev.petuska.kmdc.tab.indicator.Indicator
+import dev.petuska.kmdc.tab.indicator.MDCTabIndicatorType
+import dev.petuska.kmdc.tab.scroller.Scroller
+import dev.petuska.kmdc.top.app.bar.*
+import dev.petuska.kmdcx.icons.MDCIcon
+import dev.petuska.kmdcx.icons.mdcIcon
 import kotlinx.browser.window
 import kotlinx.coroutines.await
-import material.*
-import material_custom.MdcTopAppBarMain
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.H1
 import org.jetbrains.compose.web.dom.Img
 import org.jetbrains.compose.web.dom.P
 import org.jetbrains.compose.web.dom.Text
-import org.w3c.dom.*
+import org.w3c.dom.HTMLAnchorElement
+import org.w3c.dom.HTMLHeadingElement
 import utils.*
 import kotlin.time.Duration.Companion.days
-
 
 private fun Game.hasReference() = playerReferences.refs.isNotEmpty() || gameReferences.isNotEmpty()
 
 @Composable
-private fun GameTopBar(game: Game?, langMenu: LangMenu, selectedTab: Int, selectTab: (Int) -> Unit) {
-    val router by rememberUpdatedState(Router.current)
-
-    MdcTopAppBar {
-        Row {
-            Section(SectionAlign.Start) {
-                NavigationIcon("arrow_back", "Back") {
-                    router.navigate(homePath())
-                }
-                Title {
-                    Text(game?.names?.get(LocalLang.current.id) ?: game?.names?.get("en") ?: game?.names?.values?.firstOrNull() ?: "")
-                }
-            }
-            Section(SectionAlign.End) {
-                langMenu()
-            }
-        }
-        if (game?.hasReference() == true) {
-
-            MdcTabBar(
-                selected = selectedTab,
-                onSelected = selectTab,
-            ) {
-                MdcTab("gavel", {
-                    onClick {
-                        if (selectedTab == 0) {
-                            router.navigate("/game/${game.id}")
-                            window.scrollTo(ScrollToOptions(top = 0.0, behavior = ScrollBehavior.SMOOTH))
-                        }
-                    }
-                }) { Text(LocalLang.current.Rules) }
-                MdcTab("lightbulb") { Text(LocalLang.current.References) }
-            }
-        }
-    }
-}
-
-@Composable
 private fun GameRules(game: Game, section: String?) {
-    var html: String? by remember { mutableStateOf(null) }
+    val router = Router.current
 
+    var html: String? by remember { mutableStateOf(null) }
     val langId = LocalLang.current.id.takeIf { it in game.names } ?: "en".takeIf { it in game.names } ?: game.names.values.first()
     LaunchedEffect(langId) {
         html = null
@@ -84,31 +64,35 @@ private fun GameRules(game: Game, section: String?) {
     }) {
         var isFav by remember { mutableStateOf(Cookies["favs"]?.split(",")?.contains(encodeURIComponent(game.id)) ?: false) }
 
-        MdcIconButton(if (isFav) "star" else "star_border") {
-            val newFav = !isFav
-            val favs = Cookies["favs"]?.split(",")?.toSet() ?: emptySet()
-            Cookies.set(
-                "favs",
-                (if (newFav) favs + encodeURIComponent(game.id) else favs - encodeURIComponent(game.id)).joinToString(","),
-                (5 * 365).days
-            )
-            isFav = newFav
-        }
+        MDCIconButton(
+            icon = if (isFav) MDCIcon.Star else MDCIcon.StarBorder,
+            touch = true,
+            attrs = {
+                onClick {
+                    val newFav = !isFav
+                    val favs = Cookies["favs"]?.split(",")?.toSet() ?: emptySet()
+                    Cookies.set(
+                        "favs",
+                        (if (newFav) favs + encodeURIComponent(game.id) else favs - encodeURIComponent(game.id)).joinToString(","),
+                        (5 * 365).days
+                    )
+                    isFav = newFav
+                }
+                mdcIcon()
+            }
+        )
         Text(game.names[LocalLang.current.id] ?: game.names["en"] ?: game.names.values.firstOrNull() ?: "")
     }
 
-    MdcChipSet({
-        style {
-            marginBottom(1.cssRem)
-            justifyContent(JustifyContent.Center)
+    MDCChipsGrid(attrs = {
+        onInteraction {
+            router.navigate("/games?gameType=${it.detail.chipID}")
         }
     }) {
-        val router by rememberUpdatedState(Router.current)
         game.types.forEach {
             val encoded = encodeURIComponent(it)
-            MdcChip(
+            ActionChip(
                 id = encoded,
-                onInteract = { router.navigate("/games?gameType=$encoded") },
             ) {
                 Text(LocalLang.current.gameTypes[it] ?: it)
             }
@@ -119,69 +103,74 @@ private fun GameRules(game: Game, section: String?) {
         Text("${game.playerCount.toShortStrings().joinToString()} ${LocalLang.current.players}")
     }
 
-    MdcCard(attrs = {
+    MDCCard(attrs = {
         style {
-            width(100.percent)
+            width(98.percent)
             maxWidth(60.cssRem)
         }
-        classes("adoc", "adoc-fragment")
     }) {
-        val router by rememberUpdatedState(Router.current)
-        DisposableEffect(html) {
-            if (html != null) {
-                scopeElement.innerHTML = html!!
-                scopeElement.getElementsByTagName("a").forEach {
-                    it as HTMLAnchorElement
-                    if ('#' in it.href) {
-                        val anchor = it.href.split("#")[1]
-                        it.href = "#/game/${game.id}?section=$anchor"
+        Content(attrs = {
+            classes("adoc", "adoc-fragment")
+        }) {
+            DisposableEffect(html) {
+                if (html != null) {
+                    scopeElement.innerHTML = html!!
+                    scopeElement.getElementsByTagName("a").forEach {
+                        it as HTMLAnchorElement
+                        if ('#' in it.href) {
+                            val anchor = it.href.split("#")[1]
+                            it.href = "#/game/${game.id}?section=$anchor"
+                        }
                     }
-                }
-                scopeElement.querySelectorAll("h2, h3, h4").forEach { heading ->
-                    heading as HTMLHeadingElement
-                    if (heading.id.isNotEmpty()) {
-                        heading.style.cursor = "pointer"
-                        heading.onclick = {
-                            router.navigate("/game/${game.id}?section=${heading.id}")
+                    scopeElement.querySelectorAll("h2, h3, h4").forEach { heading ->
+                        heading as HTMLHeadingElement
+                        if (heading.id.isNotEmpty()) {
+                            heading.style.cursor = "pointer"
+                            heading.onclick = {
+                                router.navigate("/game/${game.id}?section=${heading.id}")
+                            }
                         }
                     }
                 }
+                onDispose {}
             }
-            onDispose {}
-        }
 
-        var hasLoaded by remember { mutableStateOf(false) }
-        DisposableEffect(html, section) {
-            if (html != null) {
-                if (section != null) {
-                    scopeElement.querySelector("#$section")?.scrollIntoView(if (hasLoaded) js("{ behavior: \"smooth\" }") else null)
+            var hasLoaded by remember { mutableStateOf(false) }
+            DisposableEffect(html, section) {
+                if (html != null) {
+                    if (section != null) {
+                        scopeElement.querySelector("#$section")?.scrollIntoView(if (hasLoaded) js("{ behavior: \"smooth\" }") else null)
+                    }
+                    hasLoaded = true
                 }
-                hasLoaded = true
+                onDispose {}
             }
-            onDispose {}
-        }
 
-        if (html == null) {
-            Loader()
+            if (html == null) {
+                Loader()
+            }
         }
     }
 }
 
 @Composable
 fun GameReferences(game: Game) {
-    val references = listOf("G" to game.gameReferences, "P" to game.playerReferences.refs)
-        .flatMap { (prefix, list) ->
-            list.flatMapIndexed { index, card ->
-                buildList {
-                    add("R-$prefix$index-R${card.recto}")
-                    if (card.verso != null) {
-                        add("R-$prefix$index-V${card.verso}")
+    val references = remember(game) {
+        listOf("G" to game.gameReferences, "P" to game.playerReferences.refs)
+            .flatMap { (prefix, list) ->
+                list.flatMapIndexed { index, card ->
+                    buildList {
+                        add("R-$prefix$index-R${card.recto}")
+                        if (card.verso != null) {
+                            add("R-$prefix$index-V${card.verso}")
+                        }
                     }
                 }
             }
-        }
+    }
 
-    var shown by remember { mutableStateOf<String?>(null) }
+    var focusRefId: String? by remember { mutableStateOf(null) }
+    var focusRefShown by remember { mutableStateOf(false) }
 
     val noSleep = remember { NoSleep() }
 
@@ -190,31 +179,32 @@ fun GameReferences(game: Game) {
             flexWrap(FlexWrap.Wrap)
         }
     }) {
-        references.forEach {
-            MdcCard(
-                onClick = {
-                    noSleep.enable()
-                    shown = it
-                },
+        references.forEach { ref ->
+            MDCCard(
                 attrs = {
                     style {
-                        display(DisplayStyle.Flex)
-                        justifyContent(JustifyContent.Center)
-                        alignItems(AlignItems.Center)
                         margin(1.em)
+                        overflow("hidden")
+                    }
+                    onClick {
+                        noSleep.enable()
+                        focusRefId = ref
+                        focusRefShown = true
                     }
                 }
             ) {
-                Img(src = "games/${game.id}/$it.png") {
-                    style {
-                        when (it.last()) {
-                            'P' -> {
-                                height(400.px)
-                                maxHeight(80.vw)
-                            }
-                            'L' -> {
-                                width(400.px)
-                                maxWidth(80.vw)
+                PrimaryAction {
+                    Img(src = "games/${game.id}/$ref.png") {
+                        style {
+                            when (ref.last()) {
+                                'P' -> {
+                                    height(400.px)
+                                    maxHeight(80.vw)
+                                }
+                                'L' -> {
+                                    width(400.px)
+                                    maxWidth(80.vw)
+                                }
                             }
                         }
                     }
@@ -232,7 +222,7 @@ fun GameReferences(game: Game) {
             left(0.percent)
             backgroundColor(Color.black)
             property("z-index", "10")
-            if (shown != null) {
+            if (focusRefShown) {
                 opacity(1)
             } else {
                 opacity(0)
@@ -242,11 +232,11 @@ fun GameReferences(game: Game) {
         }
         onClick {
             noSleep.disable()
-            shown = null
+            focusRefShown = false
         }
     }) {
-        if (shown != null) {
-            Img(src = "games/${game.id}/$shown.png") {
+        if (focusRefId != null) {
+            Img(src = "games/${game.id}/$focusRefId.png") {
                 style {
                     width(100.percent)
                     height(100.percent)
@@ -255,41 +245,79 @@ fun GameReferences(game: Game) {
             }
         }
     }
-
 }
 
 @Composable
-fun NavBuilder.Game(game: Game?, langMenu: LangMenu) {
-    var tab by remember { mutableStateOf(-1) }
+fun RouteBuilder.Game(game: Game?, langMenu: LangMenu) {
+    var selectedTab by remember { mutableStateOf(-1) }
 
-    val router by rememberUpdatedState(Router.current)
+    val router = Router.current
 
-    GameTopBar(game, langMenu, tab) {
-        when (it) {
-            0 -> router.navigate("/game/${game?.id}")
-            1 -> router.navigate("/game/${game?.id}/references")
-        }
-    }
-
-    MdcTopAppBarMain(withTabs = game?.hasReference() == true) {
-        FlexColumn(JustifyContent.Center, AlignItems.Center, {
-            style {
-                marginBottom(2.cssRem)
-            }
+    MDCTopAppBar {
+        TopAppBar({
+            onNav { router.navigate("/games") }
         }) {
-            if (game == null) {
-                Loader()
-            } else {
-                route("/references") {
-                    SideEffect { tab = 1 }
-                    GameReferences(game)
+            Row {
+                Section(MDCTopAppBarSectionAlign.Start) {
+                    NavButton(
+                        touch = true,
+                        attrs = { mdcIcon() }
+                    ) { Text(MDCIcon.ArrowBack.type) }
+                    Title(game?.name ?: "")
                 }
-                route("/") {
-                    SideEffect { tab = 0 }
-                    GameRules(game, parameters?.map?.get("section")?.firstOrNull()?.let { decodeURIComponent(it) })
+                Section(MDCTopAppBarSectionAlign.End) {
+                    langMenu()
                 }
-                noMatch {
-                    SideEffect { router.navigate("/game/${game.id}") }
+            }
+        }
+        Main {
+            if (game?.hasReference() == true) {
+                MDCTabBar({
+                    onActivated {
+                        when (it.detail.index) {
+                            0 -> router.navigate("/game/${game.id}")
+                            1 -> router.navigate("/game/${game.id}/references")
+                        }
+                    }
+                }) {
+                    Scroller {
+                        Tab(active = selectedTab == 0) {
+                            Content {
+                                Icon(MDCIcon.Gavel)
+                                Label(LocalLang.current.Rules)
+                            }
+                            Indicator(active = selectedTab == 0) { Content(MDCTabIndicatorType.Underline) }
+                        }
+                        Tab(active = selectedTab == 1) {
+                            Content {
+                                Icon(MDCIcon.Lightbulb)
+                                Label(LocalLang.current.References)
+                            }
+                            Indicator(active = selectedTab == 1) { Content(MDCTabIndicatorType.Underline) }
+                        }
+                    }
+                }
+            }
+
+            FlexColumn(JustifyContent.Center, AlignItems.Center, {
+                style {
+                    marginBottom(2.cssRem)
+                }
+            }) {
+                if (game == null) {
+                    Loader()
+                } else {
+                    route("/references") {
+                        SideEffect { selectedTab = 1 }
+                        GameReferences(game)
+                    }
+                    string {
+                        LaunchedEffect(null) { router.navigate("/game/${game.id}") }
+                    }
+                    noMatch {
+                        SideEffect { selectedTab = 0 }
+                        GameRules(game, parameters?.map?.get("section")?.firstOrNull()?.let { decodeURIComponent(it) })
+                    }
                 }
             }
         }

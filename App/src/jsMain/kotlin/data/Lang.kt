@@ -9,7 +9,7 @@ data class Lang(
     val game: String,
     val player: String,
     val players: String,
-    val allTypes: String,
+    val AllTypes: String,
     val Rules: String,
     val References: String,
     val Add_game: String,
@@ -18,6 +18,11 @@ data class Lang(
     val Favorites_only: String,
     val GameCards: String,
     val ReferenceCards: String,
+    val Cancel: String,
+    val PlayerCount: String,
+    val GameType: String,
+    val Add: String,
+    val Edit: String,
 
     val gameTypes: Map<String, String> = emptyMap(),
     val cardNames: Map<String, String> = emptyMap()
@@ -33,7 +38,7 @@ val langs = mapOf(
         game = "game",
         player = "player",
         players = "players",
-        allTypes = "all types",
+        AllTypes = "All types",
         Rules = "Rules",
         References = "References",
         Add_game = "Add game",
@@ -42,6 +47,11 @@ val langs = mapOf(
         Favorites_only = "Favorites only",
         GameCards = "Game cards",
         ReferenceCards = "Reference cards",
+        Cancel = "Cancel",
+        PlayerCount = "Player Count",
+        GameType = "Game Type",
+        Add = "Add",
+        Edit = "Edit",
     ),
 
     "fr" to Lang(
@@ -51,7 +61,7 @@ val langs = mapOf(
         game = "jeu",
         player = "joueur·euse",
         players = "joueur·euse·s",
-        allTypes = "tous types",
+        AllTypes = "Tous types",
         Rules = "Règles",
         References = "Références",
         Add_game = "Ajouter un jeu",
@@ -60,6 +70,11 @@ val langs = mapOf(
         Favorites_only = "Favoris seulement",
         GameCards = "cartes de Jeu",
         ReferenceCards = "cartes de Référence",
+        Cancel = "Annuler",
+        PlayerCount = "Nombre de joueur·euse·s",
+        GameType = "Type de jeu",
+        Add = "Ajouter",
+        Edit = "Modifier",
 
         gameTypes = mapOf(
             "Auction" to "Enchères",

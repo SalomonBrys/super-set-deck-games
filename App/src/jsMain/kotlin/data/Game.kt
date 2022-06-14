@@ -28,4 +28,5 @@ data class Game(
     data class P2C(val players: List<Int>, val cards: SuitToValues)
 }
 
-val Game.name @Composable get() = names[LocalLang.current.id] ?: names["en"] ?: names.values.first()
+fun Game.name(lang: Lang) = names[lang.id] ?: names["en"] ?: names.values.first()
+val Game.name @Composable get() = name(LocalLang.current)

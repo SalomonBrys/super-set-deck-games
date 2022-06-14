@@ -2,43 +2,56 @@ import androidx.compose.runtime.*
 import data.Game
 import data.LocalLang
 import data.name
-import kotlinx.coroutines.flow.*
+import dev.petuska.kmdc.button.MDCButton
+import dev.petuska.kmdc.button.MDCButtonType
+import dev.petuska.kmdc.card.MDCCard
+import dev.petuska.kmdc.checkbox.MDCCheckbox
+import dev.petuska.kmdc.dialog.*
+import dev.petuska.kmdc.form.field.MDCFormField
+import dev.petuska.kmdc.list.Divider
+import dev.petuska.kmdc.select.MDCSelect
+import dev.petuska.kmdc.select.anchor.Anchor
+import dev.petuska.kmdc.select.menu.Menu
+import dev.petuska.kmdc.select.menu.SelectItem
+import dev.petuska.kmdc.select.onChange
+import dev.petuska.kmdcx.icons.MDCIcon
+import kotlinx.coroutines.flow.FlowCollector
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
-import material.*
 import org.jetbrains.compose.web.css.*
 import org.jetbrains.compose.web.dom.*
 import utils.*
 
-
 @Composable
-private fun <T : Comparable<T>> checkList(
+private fun <T : Comparable<T>> CheckList(
     title: String,
-    id: String,
     all: Set<T>,
     set: Set<T>,
     onChange: (Set<T>) -> Unit
 ) {
-    MdcFormField({
+    MDCFormField(attrs = {
         style {
             marginTop(2.em)
+            fontSize(1.2.em)
+            fontWeight("bold")
         }
     }) {
-        MdcCheckbox(
-            id = "all-$id",
+        MDCCheckbox(
             checked = when {
                 set.size == all.size -> true
                 set.isEmpty() -> false
                 else -> null
             },
-            onChange = { checked ->
-                onChange(if (checked) all else emptySet())
+            touch = true,
+            label = title,
+            attrs = {
+                onChange {
+                    onChange(if (it.value) all else emptySet())
+                }
             }
         )
-        Label(forId = "all-$id") {
-            H2 {
-                Text(title)
-            }
-        }
     }
     FlexRow(JustifyContent.Center, AlignItems.Center, {
         style {
@@ -46,21 +59,19 @@ private fun <T : Comparable<T>> checkList(
         }
     }) {
         all.toList().sorted().forEach { value ->
-            MdcFormField {
-                MdcCheckbox(
-                    id = "$id-$value",
+            MDCFormField(attrs = {
+                style { marginRight(2.em) }
+            }) {
+                MDCCheckbox(
                     checked = value in set,
-                    onChange = {
-                        onChange(if (it) set + value else set - value)
+                    touch = true,
+                    label = value.toString(),
+                    attrs = {
+                        onChange {
+                            onChange(if (it.value) set + value else set - value)
+                        }
                     }
                 )
-                Label(forId = "$id-$value", {
-                    style {
-                        marginRight(2.em)
-                    }
-                }) {
-                    Text(value.toString())
-                }
             }
         }
     }
@@ -96,35 +107,45 @@ private fun Pack.toSuits(): Map<String, MutableMap<String, Int>> {
 }
 
 @Composable
-private fun PackerDialog(gamesList: List<Game>, trigger: Flow<Pack?>, addPack: (Pack) -> Unit) {
+private fun PackerDialog(gamesList: List<Game>, trigger: SharedFlow<Pack?>, addPack: (Pack) -> Unit) {
     var pack: Pack? by remember { mutableStateOf(null) }
     var count by remember { mutableStateOf(0) }
     var edit: Game? by remember { mutableStateOf(null) }
+    var open by remember { mutableStateOf(false) }
 
     LaunchedEffect(trigger) {
         trigger.collect {
             pack = it
             edit = it?.game
+            open = true
             ++count
         }
     }
 
-    MdcDialog(
-        trigger = trigger.map { true },
-        fullScreen = true,
-        onAction = {
-            if (it == "add" && pack != null && pack!!.players.isNotEmpty()) {
-                addPack(pack!!)
-            }
-        },
-        surfaceAttrs = {
-            style {
-                maxWidth(40.cssRem)
+    val lang = LocalLang.current
+
+    MDCDialog(
+        open = open,
+        fullscreen = true,
+        stacked = false,
+        attrs = {
+            onOpened { open = true }
+            onClosed { open = false }
+            onClosing {
+                if (it.detail.action == "ok") {
+                    pack?.let(addPack)
+                    ++count
+                }
             }
         }
     ) {
-        MdcDialogTitle { Text(if (edit == null) LocalLang.current.Add_game else edit!!.name) }
-        MdcDialogContent {
+        Title(
+            title = if (edit == null) lang.Add_game else edit!!.name,
+            attrs = {
+                style { marginLeft(1.em) }
+            }
+        )
+        Content {
             FlexColumn(JustifyContent.Center, AlignItems.Center, {
                 style {
                     padding(1.em)
@@ -132,87 +153,86 @@ private fun PackerDialog(gamesList: List<Game>, trigger: Flow<Pack?>, addPack: (
             }) {
                 if (edit == null) {
                     var favs: Set<String>? by remember { mutableStateOf(null) }
-
-                    MdcFormField {
-                        MdcCheckbox(
-                            id = "favorites",
+                    MDCFormField {
+                        MDCCheckbox(
                             checked = favs != null,
-                            onChange = { checked ->
-                                favs = if (checked) Cookies["favs"]?.split(",")?.map { decodeURIComponent(it) }?.toSet() else null
-                                pack = null
-                                ++count
+                            touch = true,
+                            label = lang.Favorites_only,
+                            attrs = {
+                                onChange {
+                                    favs = if (it.value) Cookies["favs"]?.split(",")?.map { decodeURIComponent(it) }?.toSet() else null
+                                    pack = null
+                                    ++count
+                                }
                             }
                         )
-                        Label(forId = "favorites") {
-                            Text(LocalLang.current.Favorites_only)
-                        }
                     }
 
                     key(count) {
-                        val games by rememberUpdatedState(gamesList.sortedBy { it.name })
-                        MdcSelect(
-                            selected = pack?.game?.id ?: "",
-                            onSelected = { gameId ->
-                                pack = games.first { it.id == gameId }.toPack()
-                            },
-                            label = LocalLang.current.Games,
-                            fixed = true,
-                            selectAttrs = {
-                                style {
-                                    width(18.cssRem)
+                        val games by rememberUpdatedState(gamesList.sortedBy { it.name(lang) })
+                        MDCSelect(
+                            attrs = {
+                                onChange {
+                                    val gameId = it.detail.value
+                                    pack = games.first { it.id == gameId }.toPack()
                                 }
-                            },
-                            menuAttrs = {
-                                style {
-                                    width(18.cssRem)
-                                }
+                                style { width(18.cssRem) }
                             }
                         ) {
-                            MdcSelectOption("")
-                            games
-                                .filter { favs?.contains(it.id) ?: true }
-                                .forEach {
-                                    MdcSelectOption(it.id) {
-                                        Text(it.name)
-                                    }
+                            Anchor(lang.Games)
+                            Menu(
+                                fixed = true,
+                                attrs = {
+                                    style { width(18.cssRem) }
                                 }
+                            ) {
+                                SelectItem("", selected = true)
+                                Divider()
+                                games
+                                    .filter { favs?.contains(it.id) ?: true }
+                                    .forEach {
+                                        SelectItem(text = it.name, value = it.id)
+                                    }
+                            }
                         }
                     }
                 }
+
                 val p = pack
                 if (p != null) {
                     key(p.game.id) {
-                        checkList(
+                        CheckList(
                             title = LocalLang.current.players.replaceFirstChar { it.uppercase() },
-                            id = "count",
                             all = p.game.cards.flatMap { (_, g) -> g.flatMap { (_, p) -> p.players } }.toSet(),
                             set = p.players,
                             onChange = {
                                 pack = p.copy(players = it)
                             }
                         )
+
                         if (p.game.cards.size > 1) {
-                            checkList(
+                            CheckList(
                                 title = LocalLang.current.Variants,
-                                id = "variants",
                                 all = (p.game.cards.keys - "Base").toSet(),
                                 set = p.variants,
                                 onChange = { pack = p.copy(variants = it) }
                             )
                         }
+
                     }
                 }
             }
         }
-        MdcDialogActions {
-            MdcDialogAction("close") { Text("Cancel") }
-            MdcDialogAction("add") { Text("Add") }
+
+        Actions {
+            Action("close", lang.Cancel)
+            Action("ok", if (edit == null) lang.Add else lang.Edit, true)
         }
     }
 }
 
 @Composable
-private fun PackerGamesList(packs: List<Pack>, trigger: FlowCollector<Pack>, onDelete: (Pack) -> Unit) {
+private fun PackerGamesList(packs: List<Pack>, trigger: FlowCollector<Pack?>, onDelete: (Pack) -> Unit) {
     val coroutineScope = rememberCoroutineScope()
 
     FlexColumn(JustifyContent.Center, AlignItems.Center, {
@@ -222,7 +242,7 @@ private fun PackerGamesList(packs: List<Pack>, trigger: FlowCollector<Pack>, onD
         }
     }) {
         packs.forEach { pack ->
-            MdcCard(attrs = {
+            MDCCard(attrs = {
                 style {
                     width(100.percent)
                     margin(0.5.em)
@@ -244,12 +264,24 @@ private fun PackerGamesList(packs: List<Pack>, trigger: FlowCollector<Pack>, onD
                         }
 
                     }
-                    MdcIconButton("edit", "Edit") {
-                        coroutineScope.launch {
-                            trigger.emit(pack)
+                    MDCIconButton(
+                        icon = MDCIcon.Edit,
+                        attrs = {
+                            onClick {
+                                coroutineScope.launch {
+                                    trigger.emit(pack)
+                                }
+                            }
                         }
-                    }
-                    MdcIconButton("delete", "Delete") { onDelete(pack) }
+                    )
+                    MDCIconButton(
+                        icon = MDCIcon.Delete,
+                        attrs = {
+                            onClick {
+                                onDelete(pack)
+                            }
+                        }
+                    )
                 }
             }
         }
@@ -271,7 +303,7 @@ private fun CardSpan(content: @Composable () -> Unit) {
 
 @Composable
 private fun PackerGameCards(packs: List<Pack>) {
-    MdcCard(attrs = {
+    MDCCard(attrs = {
         style {
             width(100.percent)
             maxWidth(50.cssRem)
@@ -339,9 +371,7 @@ private fun PackerGameCards(packs: List<Pack>) {
                         )
 
                 P({
-                    style {
-                        margin(.6.em, 0.em)
-                    }
+                    style { margin(.6.em, 0.em) }
                 }) {
                     Span({
                         style {
@@ -400,7 +430,7 @@ private fun PackerRefCards(packs: List<Pack>) {
     }
 
     if (allRefs.isNotEmpty()) {
-        MdcCard(attrs = {
+        MDCCard(attrs = {
             style {
                 width(100.percent)
                 maxWidth(50.cssRem)
@@ -462,32 +492,31 @@ fun Packer(games: List<Game>) {
             width(100.percent)
         }
     }) {
-
         PackerGamesList(packs, trigger) { packs = packs - it }
 
-        MdcButton(
-            variant = MdcButtonVariant.Elevated,
-            onClick = {
-                coroutineScope.launch {
-                    trigger.emit(null)
-                }
-            },
+        MDCButton(
+            text = LocalLang.current.Add_game,
+            type = MDCButtonType.Raised,
+            touch = true,
             attrs = {
                 style {
                     backgroundColor(Color("var(--mdc-theme-secondary)"))
                 }
+                onClick {
+                    coroutineScope.launch {
+                        trigger.emit(null)
+                    }
+                }
             }
-        ) {
-            Text(LocalLang.current.Add_game)
-        }
+        )
 
         PackerDialog(games - packs.map { it.game }.toSet(), trigger.asSharedFlow()) { pack ->
             val index = packs.indexOfFirst { it.game.id == pack.game.id }
 
-            if (index == -1) {
-                packs = packs + pack
+            packs = if (index == -1) {
+                packs + pack
             } else {
-                packs = buildList {
+                buildList {
                     addAll(packs)
                     set(index, pack)
                 }

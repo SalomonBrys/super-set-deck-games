@@ -4,18 +4,21 @@ import app.softwork.routingcompose.Router
 import data.Game
 import data.LocalLang
 import data.langs
+import dev.petuska.kmdc.menu.MDCMenu
+import dev.petuska.kmdc.menu.MenuItem
+import dev.petuska.kmdc.menu.onSelected
+import dev.petuska.kmdc.menu.surface.MDCMenuSurfaceAnchor
+import dev.petuska.kmdc.menu.surface.onClosed
+import dev.petuska.kmdc.menu.surface.onOpened
+import dev.petuska.kmdc.top.app.bar.ActionLink
+import dev.petuska.kmdc.top.app.bar.MDCTopAppBarSectionScope
 import kotlinx.browser.window
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.await
 import kotlinx.coroutines.launch
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
-import material.MdcMenu
-import material.MdcMenuAnchor
-import material.MdcTopAppBarSectionContext
-import material.utils.rememberMdcTrigger
-import material_custom.MdcTextIconButton
+import org.jetbrains.compose.web.dom.Small
 import org.jetbrains.compose.web.dom.Text
 import org.jetbrains.compose.web.renderComposableInBody
 import utils.Cookies
@@ -42,7 +45,7 @@ private fun getLanguage(): String {
     return lang
 }
 
-typealias LangMenu = @Composable MdcTopAppBarSectionContext.() -> Unit
+typealias LangMenu = @Composable MDCTopAppBarSectionScope.() -> Unit
 
 @Composable
 private fun WithLang(content: @Composable (LangMenu) -> Unit) {
@@ -56,17 +59,29 @@ private fun WithLang(content: @Composable (LangMenu) -> Unit) {
 
     CompositionLocalProvider(LocalLang provides lang) {
         content {
-            Action {
-                MdcMenuAnchor {
-                    val trigger = rememberMdcTrigger()
-
-                    MdcTextIconButton(LocalLang.current.id.uppercase()) { trigger.open() }
-
-                    MdcMenu(trigger.flow) {
-                        langs.keys.sorted().forEach {
-                            MdcMenuItem(onSelect = { langId = it }) { Text(it.uppercase()) }
+            var menuOpen by remember { mutableStateOf(false) }
+            ActionLink(attrs = {
+                onClick { menuOpen = true }
+            }) {
+                MDCMenuSurfaceAnchor {
+                    val langIds = remember { langs.keys.sorted() }
+                    MDCMenu(
+                        open = menuOpen,
+                        attrs = {
+                            onOpened { menuOpen = true }
+                            onClosed { menuOpen = false }
+                            onSelected {
+                                langId = langIds[it.detail.index]
+                            }
+                        }
+                    ) {
+                        langIds.forEach {
+                            MenuItem { Text(it.uppercase()) }
                         }
                     }
+                }
+                Small {
+                    Text(langId.uppercase())
                 }
             }
         }
@@ -90,9 +105,7 @@ fun App() {
     }
 
     WithLang { langMenu ->
-        HashRouter(initRoute = "/") {
-            val router by rememberUpdatedState(Router.current)
-
+        HashRouter(initPath = "/") {
             route("/game") {
                 string { gameId ->
                     if (games == null) {
@@ -102,12 +115,13 @@ fun App() {
                         if (game != null) {
                             Game(game, langMenu)
                         } else {
-                            SideEffect { router.navigate("/") }
+                            val router = Router.current
+                            LaunchedEffect(null) { router.navigate("/") }
                         }
                     }
                 }
                 noMatch {
-                    SideEffect { router.navigate("/") }
+                    redirect("/games")
                 }
             }
             route("/games") {
@@ -117,13 +131,19 @@ fun App() {
                 Home(games, langMenu)
             }
             noMatch {
-                SideEffect { router.navigate("/games") }
+                redirect("/games")
             }
         }
     }
 }
 
+@JsModule("./style.scss")
+external private val style: dynamic
+
+
 fun main() {
+    style
+
     window.addEventListener("load", {
         MainScope().launch {
             try {

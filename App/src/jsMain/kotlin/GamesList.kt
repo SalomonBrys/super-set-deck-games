@@ -1,16 +1,26 @@
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.*
 import app.softwork.routingcompose.Router
 import data.Game
 import data.LocalLang
 import data.name
-import material.*
-import material.utils.rememberMdcTrigger
+import dev.petuska.kmdc.checkbox.MDCCheckbox
+import dev.petuska.kmdc.chips.grid.ActionChip
+import dev.petuska.kmdc.chips.grid.MDCChipsGrid
+import dev.petuska.kmdc.chips.onInteraction
+import dev.petuska.kmdc.dialog.*
+import dev.petuska.kmdc.form.field.MDCFormField
+import dev.petuska.kmdc.list.Divider
+import dev.petuska.kmdc.list.MDCList
+import dev.petuska.kmdc.list.item.ListItem
+import dev.petuska.kmdc.list.item.Primary
+import dev.petuska.kmdc.list.item.Secondary
+import dev.petuska.kmdc.list.item.Text
+import dev.petuska.kmdc.list.onAction
 import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.dom.*
+import org.jetbrains.compose.web.dom.Div
+import org.jetbrains.compose.web.dom.I
+import org.jetbrains.compose.web.dom.Text
 import utils.*
-
 
 private fun Router.applyFilter(playerCount: Int, gameType: String?, favorites: Boolean) {
     val params = buildList {
@@ -30,110 +40,171 @@ private fun List<Game>.playerCounts(gameType: String?): List<Int> =
         .distinct().sorted()
 
 @Composable
+private fun PlayerCountFilterDialog(
+    isDialogOpen: Boolean,
+    setDialogOpen: (Boolean) -> Unit,
+    allCounts: List<Int>,
+    availableCounts: List<Int>,
+    applyFilter: (Int) -> Unit
+) {
+    MDCDialog(
+        open = isDialogOpen,
+        attrs = {
+            onOpened { setDialogOpen(true) }
+            onClosed { setDialogOpen(false) }
+            onClosing {
+                val action = it.detail.action ?: return@onClosing
+                if (action.startsWith("s:")) {
+                    applyFilter(if (action == "s:all") 0 else action.removePrefix("s:").toInt())
+                }
+            }
+        }
+    ) {
+        Title(LocalLang.current.PlayerCount)
+        Content {
+            val playerCounts = availableCounts
+            MDCList {
+                ListItem(
+                    text = "${allCounts.first()} - ${allCounts.last()}",
+                    attrs = {
+                        mdcDialogAction("s:all")
+                    }
+                )
+                Divider()
+                playerCounts.forEach {
+                    ListItem(
+                        text = "$it",
+                        attrs = {
+                            mdcDialogAction("s:$it")
+                        }
+                    )
+                }
+            }
+        }
+        Actions {
+            Action(action = "close", text = LocalLang.current.Cancel)
+        }
+    }
+}
+
+@Composable
+private fun GameTypeFilterDialog(
+    isDialogOpen: Boolean,
+    setDialogOpen: (Boolean) -> Unit,
+    gameTypes: List<String>,
+    applyFilter: (String?) -> Unit
+) {
+
+    MDCDialog(
+        open = isDialogOpen,
+        attrs = {
+            onOpened { setDialogOpen(true) }
+            onClosed { setDialogOpen(false) }
+            onClosing {
+                val action = it.detail.action ?: return@onClosing
+                if (action.startsWith("s:")) {
+                    applyFilter(if (action == "s:all") null else action.removePrefix("s:"))
+                }
+            }
+        }
+    ) {
+        Title(LocalLang.current.GameType)
+        Content {
+            MDCList {
+                ListItem(
+                    text = LocalLang.current.AllTypes,
+                    attrs = {
+                        mdcDialogAction("s:all")
+                    }
+                )
+                Divider()
+
+                gameTypes.forEach {
+                    ListItem(
+                        text = LocalLang.current.gameTypes[it] ?: it,
+                        attrs = {
+                            mdcDialogAction("s:$it")
+                        }
+                    )
+                }
+            }
+        }
+        Actions {
+            Action(action = "close", text = LocalLang.current.Cancel)
+        }
+    }
+}
+
+@Composable
 private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: String?, favorites: Boolean) {
-    val router = Router.current
 
     @Suppress("NAME_SHADOWING") val playerCount by rememberUpdatedState(playerCount)
     @Suppress("NAME_SHADOWING") val gameType by rememberUpdatedState(gameType)
     @Suppress("NAME_SHADOWING") val favorites by rememberUpdatedState(favorites)
 
-    val allCounts = games.playerCounts(null)
+    val lang = LocalLang.current
+    val router = Router.current
 
-    MdcChipSet {
-        val playerCountTrigger = rememberMdcTrigger()
-        MdcChip(
-            id = "playerCount",
-            onInteract = { playerCountTrigger.open() }
-        ) {
+    val filterDialogs: MutableMap<String, Boolean> = remember { mutableStateMapOf() }
+
+    val allCounts = remember { games.playerCounts(null) }
+
+    MDCChipsGrid(attrs = {
+        style { marginTop(0.5.em) }
+        onInteraction {
+            filterDialogs[it.detail.chipID] = true
+        }
+    }) {
+        ActionChip(id = "playerCount", touch = true) {
             Text(when (playerCount) {
-                0 -> "${allCounts.first()}-${allCounts.last()} ${LocalLang.current.players}"
-                1 -> "1 ${LocalLang.current.player}"
-                else -> "$playerCount ${LocalLang.current.players}"
+                0 -> "${allCounts.first()}-${allCounts.last()} ${lang.players}"
+                1 -> "1 ${lang.player}"
+                else -> "$playerCount ${lang.players}"
             })
         }
-        MdcDialog(
-            trigger = playerCountTrigger.flow,
-            onAction = {
-                if (it.startsWith("s:")) {
-                    router.applyFilter(
-                        playerCount = if (it == "s:all") 0 else it.removePrefix("s:").toInt(),
-                        gameType = gameType,
-                        favorites = favorites
-                    )
-                }
-            }
-        ) {
-            MdcDialogTitle { Text("Select player count") }
-            MdcDialogContent {
-                val playerCounts = games.playerCounts(gameType)
-                MdcList {
-                    MdcDialogListItem("s:all") { Text("${allCounts.first()}-${allCounts.last()}") }
-                    MdcListDivider()
-                    playerCounts.forEach {
-                        MdcDialogListItem("s:$it") { Text("$it") }
-                    }
-                }
-            }
-            MdcDialogActions {
-                MdcDialogAction("close") { Text("Cancel") }
-            }
-        }
-
-        val gameTypeTrigger = rememberMdcTrigger()
-        MdcChip(
-            id = "gameType",
-            onInteract = { gameTypeTrigger.open() }
-        ) {
-            Text(gameType?.let { LocalLang.current.gameTypes[it] ?: it } ?: LocalLang.current.allTypes)
-        }
-        MdcDialog(
-            trigger = gameTypeTrigger.flow,
-            onAction = {
-                if (it.startsWith("s:")) {
-                    router.applyFilter(
-                        playerCount = playerCount,
-                        gameType = if (it == "s:all") null else it.removePrefix("s:"),
-                        favorites = favorites
-                    )
-                }
-            }
-        ) {
-            MdcDialogTitle { Text("Select game type") }
-            MdcDialogContent {
-                MdcList {
-                    MdcDialogListItem("s:all") { Text(LocalLang.current.allTypes) }
-                    MdcListDivider()
-                    val gameTypes = games
-                        .filter { if (playerCount == 0) true else playerCount in it.playerCount }
-                        .flatMap { it.types }
-                        .distinct()
-                        .sortedBy { LocalLang.current.gameTypes[it] ?: it }
-                    gameTypes.forEach {
-                        MdcDialogListItem("s:$it") { Text(LocalLang.current.gameTypes[it] ?: it) }
-                    }
-                }
-            }
-            MdcDialogActions {
-                MdcDialogAction("close") { Text("Cancel") }
-            }
+        ActionChip(id = "gameType", touch = true) {
+            Text(gameType?.let { lang.gameTypes[it] ?: it } ?: lang.AllTypes)
         }
     }
 
-    MdcFormField {
-        MdcCheckbox(
-            id = "favorites",
+    val availableCounts = remember(gameType) { games.playerCounts(gameType) }
+
+    PlayerCountFilterDialog(
+        isDialogOpen = filterDialogs.getOrElse("playerCount") { false },
+        setDialogOpen = { filterDialogs["playerCount"] = it },
+        allCounts = allCounts,
+        availableCounts = availableCounts
+    ) {
+        router.applyFilter(playerCount = it, gameType = gameType, favorites = favorites)
+    }
+
+    val gameTypes = remember(playerCount) {
+        games
+            .filter { if (playerCount == 0) true else playerCount in it.playerCount }
+            .flatMap { it.types }
+            .distinct()
+            .sortedBy { lang.gameTypes[it] ?: it }
+    }
+
+    GameTypeFilterDialog(
+        isDialogOpen = filterDialogs.getOrElse("gameType") { false },
+        setDialogOpen = { filterDialogs["gameType"] = it },
+        gameTypes = gameTypes
+    ) {
+        router.applyFilter(playerCount = playerCount, gameType = it, favorites = favorites)
+    }
+
+    MDCFormField {
+        MDCCheckbox(
             checked = favorites,
-            onChange = { checked ->
-                router.applyFilter(
-                    playerCount = playerCount,
-                    gameType = gameType,
-                    favorites = checked
-                )
+            touch = true,
+            label = lang.Favorites_only,
+            attrs = {
+                onChange {
+                    router.applyFilter(playerCount = playerCount, gameType = gameType, favorites = it.value)
+                }
             }
         )
-        Label(forId = "favorites") {
-            Text(LocalLang.current.Favorites_only)
-        }
     }
 }
 
@@ -141,59 +212,59 @@ private fun GamesListFilters(games: List<Game>, playerCount: Int, gameType: Stri
 fun GamesList(games: List<Game>, playerCount: Int, gameType: String?, favorites: Boolean) {
     GamesListFilters(games, playerCount, gameType, favorites)
 
-    MdcList({
-        style {
-            width(100.percent)
-            maxWidth(26.cssRem)
-            marginBottom(2.cssRem)
-        }
-    }) {
-        val router = Router.current
+    val lang = LocalLang.current
+    val router = Router.current
 
-        val favs = Cookies["favs"]?.split(",")?.map { decodeURIComponent(it) }?.toSet() ?: emptySet()
+    val favs = remember(Cookies["favs"]) { Cookies["favs"]?.split(",")?.map { decodeURIComponent(it) }?.toSet() ?: emptySet() }
 
+    val filteredGames by rememberUpdatedState(remember(playerCount, gameType, favorites) {
         games
-            .filter {
-                if (playerCount == 0) true else playerCount in it.playerCount
+            .filter { if (playerCount == 0) true else playerCount in it.playerCount }
+            .filter { if (gameType == null) true else gameType in it.types }
+            .filter { if (favorites) it.id in favs else true }
+            .sortedBy { it.name(lang) }
+    })
+
+    MDCList(
+        attrs = {
+            style {
+                width(100.percent)
+                maxWidth(26.cssRem)
+                marginBottom(2.cssRem)
             }
-            .filter {
-                if (gameType == null) true else gameType in it.types
+            onAction {
+                router.navigate("/game/${filteredGames[it.detail.index].id}")
             }
-            .filter {
-                if (favorites) it.id in favs else true
-            }
-            .sortedBy { it.name }
-            .forEach {
-                MdcListItem(
-                    onSelect = {
-                        router.navigate("/game/${it.id}")
-                    },
-                    attrs = {
-                        style {
-                            paddingTop(0.2.cssRem)
-                            paddingBottom(0.6.cssRem)
-                        }
+        }
+    ) {
+        filteredGames.forEach {
+            ListItem(
+                attrs = {
+                    style {
+                        paddingTop(0.2.cssRem)
+                        paddingBottom(0.6.cssRem)
                     }
-                ) {
-                    FlexRow(alignItems = AlignItems.Center) {
-                        if (it.id in favs) {
-                            I({
-                                classes("material-icons")
-                                style { width(2.cssRem) }
-                            }) { Text("star") }
-                        } else {
-                            Div({
-                                style { width(2.cssRem) }
-                            })
-                        }
-                        Div {
-                            TwoLines(
-                                primary = { Text(it.name) },
-                                secondary = { Text("${it.playerCount.toShortStrings().joinToString()} ${LocalLang.current.players}") }
-                            )
+                }
+            ) {
+                FlexRow(alignItems = AlignItems.Center) {
+                    if (it.id in favs) {
+                        I({
+                            classes("material-icons")
+                            style { width(2.cssRem) }
+                        }) { Text("star") }
+                    } else {
+                        Div({
+                            style { width(2.cssRem) }
+                        })
+                    }
+                    Div {
+                        Text {
+                            Primary(it.name)
+                            Secondary("${it.playerCount.toShortStrings().joinToString()} ${lang.players}")
                         }
                     }
                 }
             }
+        }
     }
 }

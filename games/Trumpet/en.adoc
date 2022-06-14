@@ -1,0 +1,19 @@
+= Trumpet
+:toc: preamble
+:toclevels: 4
+:icons: font
+
+A game by Phil Orbanes Sr.
+
+.Components
+****
+* 69 game cards:
+** 66 numbered cards: 1-11 in ♠, ♥, ♣, ♦, ✿ & ★.
+** 3 super-trumps: J, Q & 2 Ks in ⎈
+* 6 trump cards: A in ♠, ♥, ♣, ♦, ✿ & ★.
+* 24 path cards:
+** 18 blanks: 3 Ks in ♠, ♥, ♣, ♦, ✿ & ★.
+** 6 wheels: 1-6 in ⎈.
+* 12 character cards: 2 Butterflies, 2 Wolves, 2 Owls, 2 Toads, 2 Turtles & 2 Monkeys.
+****
+

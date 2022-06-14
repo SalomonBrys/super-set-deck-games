@@ -3,7 +3,7 @@
 :toclevels: 4
 :icons: font
 
-A game Günter Burkhardt.
+A game by Günter Burkhardt.
 
 .Components
 ****
