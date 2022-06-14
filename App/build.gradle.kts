@@ -77,34 +77,10 @@ kotlin {
                 implementation("dev.petuska:kmdc:0.0.4")
                 implementation("dev.petuska:kmdcx:0.0.4")
 
-//                implementation(devNpm("style-loader", "^3.3.1"))
-//                implementation(devNpm("css-loader", "^6.7.1"))
-//                implementation(devNpm("sass-loader", "^13.0.0"))
-//                implementation(devNpm("sass", "^1.52.1"))
-
-//                val materialWebComponentsVersion = "13.0.0"
-//                implementation(npm("@material/button", materialWebComponentsVersion))
-//                implementation(npm("@material/card", materialWebComponentsVersion))
-//                implementation(npm("@material/checkbox", materialWebComponentsVersion))
-//                implementation(npm("@material/chips", materialWebComponentsVersion))
-//                implementation(npm("@material/dialog", materialWebComponentsVersion))
-//                implementation(npm("@material/drawer", materialWebComponentsVersion))
-//                implementation(npm("@material/form-field", materialWebComponentsVersion))
-//                implementation(npm("@material/icon-button", materialWebComponentsVersion))
-//                implementation(npm("@material/list", materialWebComponentsVersion))
-//                implementation(npm("@material/menu", materialWebComponentsVersion))
-//                implementation(npm("@material/menu-surface", materialWebComponentsVersion))
-//                implementation(npm("@material/ripple", materialWebComponentsVersion))
-//                implementation(npm("@material/select", materialWebComponentsVersion))
-//                implementation(npm("@material/tab-bar", materialWebComponentsVersion))
-//                implementation(npm("@material/top-app-bar", materialWebComponentsVersion))
-
                 implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
 
                 implementation("app.softwork:routing-compose:0.2.3")
 
-//                implementation(devNpm("style-loader", "^3.3.1"))
-//                implementation(devNpm("css-loader", "^6.7.1"))
                 implementation(devNpm("sass-loader", "^13.0.0"))
                 implementation(devNpm("sass", "^1.52.1"))
 
