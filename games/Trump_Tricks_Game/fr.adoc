@@ -9,7 +9,7 @@ Un jeu de Günter Burkhardt.
 .Matériel
 ****
 * 48 cartes de jeu : 1-12 à ♠, ♥, ♣ & ♦.
-* 4 cartes Atout : A à ♠, ♥, ♣ & ♦
+* 4 cartes Atout : A à ♠, ♥, ♣ & ♦.
 * 4 carte de références des points.
 ****
 

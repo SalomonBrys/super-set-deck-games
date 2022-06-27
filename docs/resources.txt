@@ -1,4 +1,4 @@
-2022-06-13_22:30:19
+2022-06-27_13:02:07
 App.js
 App.js.map
 ServiceWorker.js
@@ -196,6 +196,8 @@ games/Nyet/fr.inc.html
 games/Oh_7/R-G0-RP.png
 games/Oh_7/en.inc.html
 games/Oh_7/fr.inc.html
+games/Parade/en.inc.html
+games/Parade/fr.inc.html
 games/Rage/R-P0-RL.png
 games/Rage/en.inc.html
 games/Rage/fr.inc.html
@@ -220,7 +222,9 @@ games/Tichu/fr.inc.html
 games/Trump_Tricks_Game/R-P0-RP.png
 games/Trump_Tricks_Game/en.inc.html
 games/Trump_Tricks_Game/fr.inc.html
+games/Trumpet/R-G0-RL.png
 games/Trumpet/en.inc.html
+games/Trumpet/fr.inc.html
 games/Wizard/en.inc.html
 games/Wizard/fr.inc.html
 games/Yokai_Septet/R-P0-RL.png

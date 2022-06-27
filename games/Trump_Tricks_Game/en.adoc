@@ -8,7 +8,7 @@ A game by Günter Burkhardt.
 .Components
 ****
 * 48 game cards: 1-12 in ♠, ♥, ♣ & ♦.
-* 4 trump cards: A in ♠, ♥, ♣ & ♦
+* 4 trump cards: A in ♠, ♥, ♣ & ♦.
 * 4 Points reference cards.
 ****
 

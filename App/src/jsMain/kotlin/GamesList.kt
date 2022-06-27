@@ -217,7 +217,7 @@ fun GamesList(games: List<Game>, playerCount: Int, gameType: String?, favorites:
 
     val favs = remember(Cookies["favs"]) { Cookies["favs"]?.split(",")?.map { decodeURIComponent(it) }?.toSet() ?: emptySet() }
 
-    val filteredGames by rememberUpdatedState(remember(playerCount, gameType, favorites) {
+    val filteredGames by rememberUpdatedState(remember(playerCount, gameType, favorites, lang.id) {
         games
             .filter { if (playerCount == 0) true else playerCount in it.playerCount }
             .filter { if (gameType == null) true else gameType in it.types }

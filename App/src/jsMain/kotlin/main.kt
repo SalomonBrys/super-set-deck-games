@@ -138,7 +138,7 @@ fun App() {
 }
 
 @JsModule("./style.scss")
-external private val style: dynamic
+private external val style: dynamic
 
 
 fun main() {
