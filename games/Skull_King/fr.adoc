@@ -212,5 +212,5 @@ Le nombre de plis pronostiqués, ainsi que le nombre de points obtenus sont not�
 
 == Fin du jeu
 
-Le jeu s'achève après la 10ème manche.
+Le jeu s'achève après la 10^ème^ manche.
 Le pirate ayant obtenu le plus de points a fait de bons pronostics, a réussi ses plis et gagné la bataille.

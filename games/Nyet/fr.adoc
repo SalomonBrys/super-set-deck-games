@@ -236,7 +236,7 @@ Cette carte permet de doubler les points gagnés à cette manche par le joueur q
 Les 60 cartes sont utilisées.
 Chaque joueur reçoit 10 cartes.
 On joue toujours à 3 contre 3.
-La partie prend fin après la 12ème manche.
+La partie prend fin après la 12^ème^ manche.
 Le premier joueur choisit ses partenaires.
 
 
@@ -257,7 +257,7 @@ La partie se termine après 10 manches.
 Les 60 cartes sont utilisées.
 Chaque joueur reçoit 15 cartes.
 On joue toujours à 2 contre 2.
-La partie prend fin après la 8ème manche.
+La partie prend fin après la 8^ème^ manche.
 Le premier joueur choisit son partenaire.
 
 

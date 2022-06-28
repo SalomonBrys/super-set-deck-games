@@ -391,7 +391,7 @@ Ainsi, leur score total est de 3 points pour cette manche.
 *Manche 2* :
 
 Alice et Charlie ont gagné 3 plis chacun.
-Charlie vient juste de gagner son 4ème pli.
+Charlie vient juste de gagner son 4^ème^ pli.
 Leur équipe a maintenant gagné un total de 7 plis.
 
 La manche s’arrête et l’équipe de Barbara et David est victorieuse.

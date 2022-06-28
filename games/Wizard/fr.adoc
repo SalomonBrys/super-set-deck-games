@@ -23,7 +23,7 @@ Celui qui a le plus de points à la fin de la partie a gagné
 Le nombre de cartes distribuées change selon le tour.
 Au premier tour, chacun des joueurs ne reçoit qu'une seule carte.
 Il n'y aura donc qu'un pli.
-Au 2ème tour, on reçoit 2 cartes.
+Au 2^ème^ tour, on reçoit 2 cartes.
 Au troisième tour, trois cartes et ainsi de suite jusqu'à ce que, au dernier tour, toutes les cartes aient été distribuées.
 Les cartes non distribuées sont posées, face cachée, au centre de la table.
 A chaque tour, c'est à un nouvel apprenti (le suivant dans le sens horaire) qu'incombera la tâche de distribuer les cartes.
@@ -73,9 +73,9 @@ Celui qui a gagné commence pour le prochain pli.
 Si la première carte d'un pli est un Loup, les joueurs peuvent jouer n'importe qu'elle carte, y compris Loup et Papillon.
 C'est la première carte Loup qui remporte le pli.
 
-Si la première carte jouée est un Papillon, la 2ème carte jouée pourra être de n'importe quelle couleur, c'est cette 2ème carte qui détermine la couleur qui devra être jouée.
+Si la première carte jouée est un Papillon, la 2^ème^ carte jouée pourra être de n'importe quelle couleur, c'est cette 2^ème^ carte qui détermine la couleur qui devra être jouée.
 Les cartes Papillon ne gagnent jamais le pli.
-Une exception néanmoins : si toutes les cartes jouées sont des Papillons, c'est le 1er Papillon qui l'emporte.
+Une exception néanmoins : si toutes les cartes jouées sont des Papillons, c'est le 1^er^ Papillon qui l'emporte.
 
 
 == Les points

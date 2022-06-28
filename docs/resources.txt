@@ -1,4 +1,4 @@
-2022-06-27_13:02:07
+2022-06-28_11:52:32
 App.js
 App.js.map
 ServiceWorker.js
@@ -149,6 +149,9 @@ fonts/LCTPicon/LCTPicon-Ultra-light.otf
 fonts/LCTPicon/LCTPicon-Ultra-light.ttf
 fonts/LCTPicon/LCTPicon-Ultra-light.woff
 fonts/LCTPicon/LCTPicon-Ultra-light.woff2
+games/Bids/R-G0-RP.png
+games/Bids/en.inc.html
+games/Bids/fr.inc.html
 games/Claim/R-P0-RP.png
 games/Claim/en.inc.html
 games/Claim/fr.inc.html

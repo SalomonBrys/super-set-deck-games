@@ -26,10 +26,7 @@ import dev.petuska.kmdcx.icons.mdcIcon
 import kotlinx.browser.window
 import kotlinx.coroutines.await
 import org.jetbrains.compose.web.css.*
-import org.jetbrains.compose.web.dom.H1
-import org.jetbrains.compose.web.dom.Img
-import org.jetbrains.compose.web.dom.P
-import org.jetbrains.compose.web.dom.Text
+import org.jetbrains.compose.web.dom.*
 import org.w3c.dom.HTMLAnchorElement
 import org.w3c.dom.HTMLHeadingElement
 import utils.*
@@ -229,6 +226,7 @@ fun GameReferences(game: Game) {
                 property("pointer-events", "none")
             }
             property("transition", "opacity 150ms")
+            overflow("hidden")
         }
         onClick {
             noSleep.disable()
@@ -241,6 +239,7 @@ fun GameReferences(game: Game) {
                     width(100.percent)
                     height(100.percent)
                     property("object-fit", "contain")
+                    transform { scale(1.06) }
                 }
             }
         }

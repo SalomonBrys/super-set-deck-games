@@ -111,7 +111,7 @@ Le joueur pioche une carte de la pile pour avoir 5 cartes en main.
 
 La dernière manche débute lorsqu'un joueur a devant lui au moins une carte de chacune des 6 couleurs *OU* si la pile est vide.
 
-Si un joueur récupère la 6ème couleur, il complète son tour, comme à l'habitude.
+Si un joueur récupère la 6^ème^ couleur, il complète son tour, comme à l'habitude.
 Ensuite, tous les joueurs jouent un dernier tour, incluant le premier joueur à récupérer les 6 différentes couleurs.
 Cependant, les joueurs ne piochent pas de carte à la fin de leur tour.
 La partie prend fin après cette dernière manche.

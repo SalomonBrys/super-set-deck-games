@@ -207,7 +207,7 @@ Non – Si une bombe est jouée sur le pli contenant le Roi Singe, le Roi Singe 
 Non – Si un joueur n'a pas de carte de valeur demandée, il n'est pas obligé de réaliser le vœu même s'il a le Loup en main (qui n'est pas considéré comme une carte de la valeur demandée, même si elle peut être utilisée comme un Joker).
 Le prochain joueur à avoir une carte de la valeur demandée et pouvant légalement la jouer doit la jouer, même s'il doit pour cela jouer une bombe ou une suite de la taille demandée avec le Loup.
 
-* *Qu'arrive-t-il au dernier pli (lorsque le 3ème joueur joue sa dernière carte ?* +
+* *Qu'arrive-t-il au dernier pli (lorsque le 3^ème^ joueur joue sa dernière carte ?* +
 Le pli remporté par le troisième joueur à sortir est un pli comme les autres, qui est pris en compte dans le décompte – et qui doit être donné s'il comprend le Roi Singe.
 
 * *Que se passe-t-il si deux joueurs veulent jouer une bombe en même temps ?* +
@@ -278,5 +278,5 @@ Les règles sont les mêmes que celles du jeu à quatre joueurs, excepté sur le
 * Chaque joueur ne *donne* en début de partie que deux cartes, une *à* chacun de ses deux *partenaires*, et reçoit donc une carte de chacun d'eux.
 * La *Chouette* permet de faire passer l'entame à un *partenaire de son choix*.
 * Pour le *décompte* des points, le *dernier joueur* à qui il reste des cartes donne à *l'équipe adverse* à la fois les cartes qu'il lui reste en main et les plis qu'il a ramassé, tandis que le *cinquième* à être sorti donne, lui, tous ses plis au *premier joueur* à être sorti.
-* Si les trois joueurs d'une même équipe sortent 1er, 2ème et 3ème – c'est-à-dire si une équipe n'a plus une seule carte tandis que ses adversaires ont tous encore au moins une carte en main – cette équipe marque 60 points, et on ne procède pas au décompte normal.
+* Si les trois joueurs d'une même équipe sortent 1^er^, 2^ème^ et 3^ème^ – c'est-à-dire si une équipe n'a plus une seule carte tandis que ses adversaires ont tous encore au moins une carte en main – cette équipe marque 60 points, et on ne procède pas au décompte normal.
 En revanche, le décompte a lieu normalement, et sans bonus particulier, si seulement deux membres de l'équipe sont sortis premier et deuxième.
