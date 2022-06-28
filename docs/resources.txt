@@ -1,4 +1,4 @@
-2022-06-28_11:52:32
+2022-06-28_18:19:40
 App.js
 App.js.map
 ServiceWorker.js
@@ -180,6 +180,9 @@ games/Haggis/fr.inc.html
 games/Hanamikoji/R-P0-RL.png
 games/Hanamikoji/en.inc.html
 games/Hanamikoji/fr.inc.html
+games/Herrlof/R-P0-RP.png
+games/Herrlof/en.inc.html
+games/Herrlof/fr.inc.html
 games/High_Society/R-G0-RP.png
 games/High_Society/en.inc.html
 games/High_Society/fr.inc.html
